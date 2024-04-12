@@ -182,7 +182,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <MDBox p={2} mt="auto">
         <MDButton
           component={NavLink} 
-          to="/"
+          to="/start"
           variant="gradient"
           color={sidenavColor}
           fullWidth

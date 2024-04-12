@@ -36,6 +36,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React layouts
+import Start from "layouts/start";
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
@@ -56,32 +57,40 @@ import Icon from "@mui/material/Icon";
 
 const routes = [
   {
+    // type: "collapse",
+    name: "Главная",
+    key: "start",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/start",
+    component: <Start />,
+  },
+  {
     type: "collapse",
     name: "Главная",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
+    route: "/dashboard/:id",
     component: <Dashboard />,
   },
   {
     type: "collapse",
     name: "Эмитент",
-    key: "tables",
+    key: "emitent/:id",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/emitent",
+    route: "/emitent/:id",
     component: <Tables />,
   },
   {
     type: "collapse",
-    name: "Блог",
+    name: "Tables",
     key: "allposts",
     icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/allposts",
+    route: "/allposts/:id",
     component: <EditBlog />,
   },
   {
     type: "collapse",
-    name: "Расчет налогов",
+    name: "Billing",
     key: "billing",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
@@ -89,7 +98,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Декларация",
+    name: "Notifications",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
@@ -109,7 +118,7 @@ const routes = [
 
   {
     type: "collapse",
-    name: "test",
+    name: "Profile",
     key: "profile",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
@@ -141,13 +150,13 @@ const routes = [
     component: <PersonalData />,
   },
   {
-    key: "add-post",
-    route: "/add-post", 
+    key: "add-emitent",
+    route: "/add-emitent", 
     component: <AddPost />,
   },
   {
-    key: "editpost",
-    route: "/posts/:id/edit", 
+    key: "editemitent",
+    route: "/emitent/:id/edit", 
     component: <AddPost />,
   },
 

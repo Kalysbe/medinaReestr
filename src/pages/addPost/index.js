@@ -10,6 +10,7 @@ import Card from "@mui/material/Card";
 import SimpleMDE from 'react-simplemde-editor';
 import Container from '@mui/material/Container';
 import MDButton from "components/MDButton";
+import MDTypography from "components/MDTypography";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -124,7 +125,9 @@ function AddPost() {
       <DashboardNavbar />
       <Container>
         <Paper style={{ padding: 30 }}>
-
+        <MDTypography variant="h3" fontWeight="medium" lineHeight={1}>
+             Добавление эмитента
+            </MDTypography>
 
         <MDBox mt={8}>
            
@@ -141,7 +144,7 @@ function AddPost() {
             </MDBox>
 
             <MDBox mt={8}>
-            <MDButton onClick={onSubmit} variant="gradient" color="info">
+            <MDButton onClick={onSubmit} variant="gradient" color="info" mx={8}>
               {isEditing ? 'Сохранить' : 'Добавить'}
             </MDButton>
               <MDButton color="error">Отмена</MDButton>

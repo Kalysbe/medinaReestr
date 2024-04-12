@@ -17,7 +17,6 @@ import { useState, useEffect, useMemo } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -109,18 +108,29 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
+
+
+
+  
+
+  const getRoutes = (allRoutes) => {
+    return allRoutes.flatMap((route) => {
       if (route.collapse) {
+        // Если текущий маршрут содержит вложенные маршруты, вызываем getRoutes рекурсивно
         return getRoutes(route.collapse);
       }
-
-      if (route.route) {
+  
+      if (route.route && route.component) {
+        // Если текущий маршрут является конечным, создаем элемент Route
         return <Route exact path={route.route} element={route.component} key={route.key} />;
       }
-
+  
+      // Если текущий маршрут невалиден, возвращаем null
       return null;
     });
+  };
+  
+  
 
   const configsButton = (
     <MDBox
@@ -167,7 +177,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/start" />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -191,7 +201,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<Navigate to="/start" />} />
       </Routes>
     </ThemeProvider>
   );
