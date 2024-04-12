@@ -1,0 +1,104 @@
+@font-face {
+    font-family: "flaticon_plugin-plate-icons";
+    src: url("../fonts/flaticon_plugin-plate-icons.ttf") format("truetype"),
+url("../fonts/flaticon_plugin-plate-icons.woff") format("woff"),
+url("../fonts/flaticon_plugin-plate-icons.woff2") format("woff2"),
+url("../fonts/flaticon_plugin-plate-icons.eot#iefix") format("embedded-opentype"),
+url("../images/flaticon_plugin-plate-icons.svg#flaticon_plugin-plate-icons") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_plugin-plate-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-open-book:before {
+    content: "\f101";
+}
+.flaticon-document:before {
+    content: "\f102";
+}
+.flaticon-shopping-cart:before {
+    content: "\f103";
+}
+.flaticon-shopping-cart-1:before {
+    content: "\f104";
+}
+.flaticon-shopping-cart-2:before {
+    content: "\f105";
+}
+.flaticon-shopping-cart-3:before {
+    content: "\f106";
+}
+.flaticon-support:before {
+    content: "\f107";
+}
+.flaticon-book:before {
+    content: "\f108";
+}
+.flaticon-document-1:before {
+    content: "\f109";
+}
+.flaticon-headphones:before {
+    content: "\f10a";
+}
+.flaticon-customer-service:before {
+    content: "\f10b";
+}
+.flaticon-support-1:before {
+    content: "\f10c";
+}
+.flaticon-shopping-cart-4:before {
+    content: "\f10d";
+}
+.flaticon-shopping-cart-5:before {
+    content: "\f10e";
+}
+.flaticon-open-book-1:before {
+    content: "\f10f";
+}
+.flaticon-paper:before {
+    content: "\f110";
+}
+.flaticon-open-book-2:before {
+    content: "\f111";
+}
+.flaticon-file:before {
+    content: "\f112";
+}
+.flaticon-shopping-cart-6:before {
+    content: "\f113";
+}
+.flaticon-shopping-cart-7:before {
+    content: "\f114";
+}
+.flaticon-shopping-cart-8:before {
+    content: "\f115";
+}
+.flaticon-grocery-store:before {
+    content: "\f116";
+}
+.flaticon-shopping-cart-9:before {
+    content: "\f117";
+}
+.flaticon-technical-support:before {
+    content: "\f118";
+}
+.flaticon-customer-support:before {
+    content: "\f119";
+}
+.flaticon-shopping-bag:before {
+    content: "\f11a";
+}
+.flaticon-headphone:before {
+    content: "\f11b";
+}
+.flaticon-market:before {
+    content: "\f11c";
+}
