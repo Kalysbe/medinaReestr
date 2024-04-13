@@ -16,8 +16,8 @@ Coded by www.creative-tim.com
 import { useEffect } from "react";
 
 // react-router-dom components
-import { useLocation } from "react-router-dom";
-
+import { useLocation , useNavigate, Navigate, useParams} from "react-router-dom";
+import { useSelector } from 'react-redux';
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
@@ -26,7 +26,7 @@ import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setLayout } from "context";
-
+import { selectIsAuth } from "../../../redux/slices/auth";
 function PageLayout({ background, children }) {
   const [, dispatch] = useMaterialUIController();
   const { pathname } = useLocation();
@@ -34,7 +34,11 @@ function PageLayout({ background, children }) {
   useEffect(() => {
     setLayout(dispatch, "page");
   }, [pathname]);
-
+  const navigate = useNavigate();
+  const isAuth = useSelector(selectIsAuth);
+  if (!window.localStorage.getItem("token") || !isAuth) {
+    // return <Navigate to="/authentication/sign-in" />;
+  }
   return (
     <>
       {children}

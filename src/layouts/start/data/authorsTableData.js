@@ -16,24 +16,28 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React components
+
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import { useLocation, NavLink } from "react-router-dom";
-import MDAvatar from "components/MDAvatar";
-import MDBadge from "components/MDBadge";
+
 
 // Images
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+
 
 let dataa = [
   {id:1,name:'ЗАО НУР'},
   {id:2,name:'Test'}
 ]
+console.log(dataa)
 
 export default function data() {
+
+
+
+
+
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDTypography display="block" variant="h6" fontWeight="medium">

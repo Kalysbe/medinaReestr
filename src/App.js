@@ -13,15 +13,16 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect, useMemo } from "react";
+import {React, useState, useEffect, useMemo } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
-
+import { useDispatch, useSelector } from 'react-redux';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
@@ -45,13 +46,50 @@ import createCache from "@emotion/cache";
 // Material Dashboard 2 React routes
 import routes from "routes";
 
+import { fetchAuthMe, logout, selectIsAuth } from './redux/slices/auth';
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+// import NotPage from "./layouts/main/NotPage"
+import { layouts } from "chart.js";
 
+
+
+import "./assets/css/layerslider.css"
+import "./assets/css/classic-theme.css"
+import "./assets/css/global.css"
+import "./assets/css/extendify-utilities.css"
+import "./assets/css/styles.css"
+import "./assets/css/style.css"
+import "./assets/css/flaticon_plugin-plate-icons.css"
+import "./assets/css/custom-style.css"
+import "./assets/css/slick.css"
+import "./assets/css/perfect-scrollbar.min.css"
+import "./assets/css/custom-theme.css"
+import "./assets/css/magnific-popup.css"
+import "./assets/css/feather.css"
+import "./assets/css/frontend.css"
+import "./assets/css/webfont.min.css"
+import "./assets/css/elementor-icons.min.css"
+import "./assets/css/frontend-legacy.min.css"
+import "./assets/css/frontend.min.css"
+import "./assets/css/swiper.min.css"
+import "./assets/css/post-12.css"
+import "./assets/css/post-61.css"
+import "./assets/css/style_1.css"
+import "./assets/css/fontawesome.min_1.css"
+import "./assets/css/bootstrap.min.css"
+import "./assets/css/style_2.css"
+import "./assets/css/color.schemes.css"
+import "./assets/css/fontawesome.min.css"
+import "./assets/css/fonts.css"
+import "./assets/css/post-2106.css"
+import "./assets/css/post-172.css"
+import "./assets/css/core-block-supports.css"
+import "./assets/css/animations.min.css"
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -107,31 +145,20 @@ export default function App() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
-
-
-
-
   
-
-  const getRoutes = (allRoutes) => {
-    return allRoutes.flatMap((route) => {
+  const getRoutes = (allRoutes) =>
+    allRoutes.map((route) => {
       if (route.collapse) {
-        // Если текущий маршрут содержит вложенные маршруты, вызываем getRoutes рекурсивно
         return getRoutes(route.collapse);
       }
-  
-      if (route.route && route.component) {
-        // Если текущий маршрут является конечным, создаем элемент Route
+
+      if (route.route) {
         return <Route exact path={route.route} element={route.component} key={route.key} />;
       }
-  
-      // Если текущий маршрут невалиден, возвращаем null
+
       return null;
     });
-  };
-  
-  
-
+    console.log(layout)
   const configsButton = (
     <MDBox
       display="flex"
@@ -155,17 +182,23 @@ export default function App() {
       </Icon>
     </MDBox>
   );
+  const dispath = useDispatch()
+  const isAuth = useSelector(selectIsAuth);
+
+  useEffect(() => {
+    dispath(fetchAuthMe())
+  }, [])
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        <CssBaseline />
+        <CssBaseline /> 
         {layout === "dashboard" && (
           <>
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Medina Reestr"
+              brandName="ADB Solution"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -177,7 +210,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/start" />} />
+          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -189,7 +222,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Medina Reestr"
+            brandName="ADB Solution"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -201,7 +234,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/start" />} />
+        {/* <Route path="*" element={<NotPage/>} /> */}
       </Routes>
     </ThemeProvider>
   );

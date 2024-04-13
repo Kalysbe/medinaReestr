@@ -69,15 +69,15 @@ const routes = [
     name: "Главная",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard/:id",
+    route: "/dashboard/",
     component: <Dashboard />,
   },
   {
     type: "collapse",
-    name: "Эмитент",
+    name: "Эмитенты",
     key: "emitent/:id",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/emitent/:id",
+    route: "/emitent/",
     component: <Tables />,
   },
   {
@@ -85,7 +85,7 @@ const routes = [
     name: "Tables",
     key: "allposts",
     icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/allposts/:id",
+    route: "/allposts/",
     component: <EditBlog />,
   },
   {
@@ -146,7 +146,7 @@ const routes = [
     name: "Sign Up",
     key: "table",
     icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/emitent/personalData",
+    route: "/emitent/personalData/:id",
     component: <PersonalData />,
   },
   {

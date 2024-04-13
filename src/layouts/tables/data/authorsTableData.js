@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React components
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
@@ -29,10 +30,11 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
 export default function data() {
+  const { id } = useParams();
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDTypography display="block" variant="h6" fontWeight="medium">
-        {name}
+        {name} {id}
       </MDTypography>
     </MDBox>
   );
@@ -50,8 +52,8 @@ export default function data() {
         author: <Author name="Анкетные данные" />,
         action: (
           <MDButton variant="outlined" color="info" size="small"
-          component={NavLink}
-            to="personalData"
+            component={NavLink}
+            to={`/emitent/personalData/${id}`}
           >
             Открыть
           </MDButton>
