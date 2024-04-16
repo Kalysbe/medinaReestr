@@ -16,7 +16,7 @@ import axios from '../../axios';
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
-import { fetchPosts, fetchTags } from '../../redux/slices/post';
+import { fetchPosts, fetchTags } from '../../redux/slices/emitents';
 
 import { useMediaQuery } from '@mui/material';
 

@@ -36,9 +36,8 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React layouts
-import Start from "layouts/start";
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
+import Tables from "layouts/emitents";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import EditBlog from "layouts/Blog"
@@ -48,22 +47,15 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
 //dashboard
+import EmitentDetails from "pages/emitentDetails"
 
 import PersonalData from "pages/personalData"
-import AddPost from "pages/addPost"
+import EditEmitent from "layouts/emitents/edit-emitent"
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 
 const routes = [
-  {
-    // type: "collapse",
-    name: "Главная",
-    key: "start",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/start",
-    component: <Start />,
-  },
   {
     type: "collapse",
     name: "Главная",
@@ -75,14 +67,14 @@ const routes = [
   {
     type: "collapse",
     name: "Эмитенты",
-    key: "emitent/:id",
+    key: "emitent",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/emitent/",
+    route: "/emitents",
     component: <Tables />,
   },
   {
     type: "collapse",
-    name: "Tables",
+    name: "Эмиссии",
     key: "allposts",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/allposts/",
@@ -90,7 +82,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Billing",
+    name: "Держатели",
     key: "billing",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
@@ -98,11 +90,19 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Notifications",
+    name: "Ценные бумаги",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
     component: <Notifications />,
+  },
+  {
+    // type: "collapse",
+    name: "emitentDetails",
+    key: "emitentDetails",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/emitent/:id",
+    component: <EmitentDetails />,
   },
 
 
@@ -116,14 +116,14 @@ const routes = [
   // },
 
 
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Profile",
+  //   key: "profile",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/profile",
+  //   component: <Profile />,
+  // },
   {
   
     name: "Sign In",
@@ -152,12 +152,12 @@ const routes = [
   {
     key: "add-emitent",
     route: "/add-emitent", 
-    component: <AddPost />,
+    component: <EditEmitent />,
   },
   {
     key: "editemitent",
     route: "/emitent/:id/edit", 
-    component: <AddPost />,
+    component: <EditEmitent />,
   },
 
 ];

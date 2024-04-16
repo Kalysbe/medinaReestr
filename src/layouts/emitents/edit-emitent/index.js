@@ -17,11 +17,11 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import 'easymde/dist/easymde.min.css';
-import { selectIsAuth } from '../../redux/slices/auth';
-import axios from '../../axios';
+import { selectIsAuth } from '../../../redux/slices/auth';
+import axios from '../../../axios';
 
 import Swal from 'sweetalert2';
-import styles from './AddPost.module.css';
+import styles from './EditEmitent.css';
 
 
 let data = {
@@ -93,18 +93,17 @@ function AddPost(props) {
     try {
       setLoading(true);
       console.log(data)
-      const response = await axios.post('/emitents', data);
+      const response = isEditing 
+      ? await axios.put(`/emitents/${id}`, data)
+      : await axios.post('/emitents', data)
 
-      // Показ оповещения об успешной отправке с помощью SweetAlert2
       await Swal.fire({
         title: 'Успешно!',
         text: 'Данные успешно отправлены',
         icon: 'success',
         confirmButtonText: 'Ок'
       });
-
-      // Перенаправление пользователя на маршрут "/start"
-      navigate('/start');
+      navigate(`/emitent/${id}`);
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
       alert('Произошла ошибка при отправке данных на сервер');
@@ -118,10 +117,12 @@ function AddPost(props) {
       axios
         .get(`/emitents/${id}`)
         .then(({ data }) => {
-          setTitle(data.title);
-          setText(data.text);
-          setImageUrl(data.imageUrl);
-          setTags(data.tags.join(','));
+          setData(data)
+          console.log(data)
+          // setTitle(data.title);
+          // setText(data.text);
+          // setImageUrl(data.imageUrl);
+          // setTags(data.tags.join(','));
         })
         .catch((err) => {
           console.warn(err);
@@ -170,7 +171,7 @@ function AddPost(props) {
                 </MDButton>
                 <MDButton color="error"
                   component={NavLink}
-                  to='/start'>Отмена</MDButton>
+                  to='/emitents'>Отмена</MDButton>
               </MDBox>
             </form>
           </Paper>

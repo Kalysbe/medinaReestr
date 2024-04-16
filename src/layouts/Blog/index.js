@@ -13,8 +13,8 @@ import MDButton from "components/MDButton";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { Post } from 'components/Post';
-import { fetchPosts, fetchTags } from '../../redux/slices/post';
+// import { Post } from 'components/Post';
+import { fetchPosts, fetchTags } from '../../redux/slices/emitents';
 
 import { useMediaQuery } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -78,7 +78,7 @@ function Basic(props) {
                             <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom>
 
                             </Typography>
-                            <Grid container spacing={2}>
+                            {/* <Grid container spacing={2}>
                                 {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
                                     isPostsLoading ? (
                                         <Grid sx={{ pl: 0 }} xs={12} item key={index}>
@@ -101,7 +101,7 @@ function Basic(props) {
                                             />
                                         </Grid>
                                     ))}
-                            </Grid>
+                            </Grid> */}
 
                         </Container>
                     </MDBox>
