@@ -40,7 +40,6 @@ import Dashboard from "layouts/dashboard";
 import Tables from "layouts/emitents";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
-import EditBlog from "layouts/Blog"
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
@@ -72,20 +71,20 @@ const routes = [
     route: "/emitents",
     component: <Tables />,
   },
-  {
-    type: "collapse",
-    name: "Эмиссии",
-    key: "allposts",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/allposts/",
-    component: <EditBlog />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Эмиссии",
+  //   key: "allposts",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/allposts/",
+  //   component: <EditBlog />,
+  // },
   {
     type: "collapse",
     name: "Держатели",
-    key: "billing",
+    key: "holders",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
+    route: "/holders",
     component: <Billing />,
   },
   {
@@ -106,14 +105,7 @@ const routes = [
   },
 
 
-  // {
-  //   type: "collapse",
-  //   name: "Декларация",
-  //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-  //   route: "/rtl",
-  //   component: <RTL />,
-  // },
+
 
 
   // {

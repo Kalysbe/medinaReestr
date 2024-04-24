@@ -1,13 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+export const fetchEmitents = createAsyncThunk("emitents/fetchEmitents", async () => {
     const { data } = await axios.get("/emitents");
-    return data;
-})
-
-export const fetchTags = createAsyncThunk("posts/fetchTags", async () => {
-    const { data } = await axios.get("/tags");
     return data;
 })
 
@@ -16,7 +11,7 @@ export const fetchDeleteEmitent = createAsyncThunk("emitents/fetchDeleteEmitent"
 })
 
 const initialState = {
-    posts: {
+    emitents: {
         items: [],
         status: "loading"
     },
@@ -26,48 +21,32 @@ const initialState = {
     }
 }
 
-const postsSlice = createSlice({
-    name: "posts",
+const emitentsSlice = createSlice({
+    name: "emitents",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
       // Действия для получения постов
       builder
-        .addCase(fetchPosts.pending, (state) => {
-          state.posts.items = [];
-          state.posts.status = "loading";
+        .addCase(fetchEmitents.pending, (state) => {
+          state.emitents.items = [];
+          state.emitents.status = "loading";
         })
-        .addCase(fetchPosts.fulfilled, (state, action) => {
-          state.posts.items = action.payload;
-          state.posts.status = "loaded";
+        .addCase(fetchEmitents.fulfilled, (state, action) => {
+          state.emitents.items = action.payload;
+          state.emitents.status = "loaded";
         })
-        .addCase(fetchPosts.rejected, (state) => {
-          state.posts.items = [];
-          state.posts.status = "error";
+        .addCase(fetchEmitents.rejected, (state) => {
+          state.emitents.items = [];
+          state.emitents.status = "error";
         });
-  
-      // Действия для получения тегов
-      builder
-        .addCase(fetchTags.pending, (state) => {
-          state.tags.items = [];
-          state.tags.status = "loading";
-        })
-        .addCase(fetchTags.fulfilled, (state, action) => {
-          state.tags.items = action.payload;
-          state.tags.status = "loaded";
-        })
-        .addCase(fetchTags.rejected, (state) => {
-          state.tags.items = [];
-          state.tags.status = "error";
-        });
-  
-      // Действия для удаления поста
+      // Действия для удаления эмитента
       builder.addCase(fetchDeleteEmitent.pending, (state, action) => {
         const postIdToRemove = action.meta.arg;
-        state.posts.items = state.posts.items.filter((obj) => obj._id !== postIdToRemove);
+        state.emitents.items = state.emitents.items.filter((obj) => obj._id !== postIdToRemove);
       });
     },
   });
   
 
-export const postsReducer = postsSlice.reducer
+export const emitentsReducer = emitentsSlice.reducer

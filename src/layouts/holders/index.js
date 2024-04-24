@@ -35,8 +35,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import { fetchEmitents } from '../../redux/slices/emitents';
-import { fetchDeleteEmitent } from '../../redux/slices/emitents';
+import { fetchHolders } from '../../redux/actions/holders';
 import Swal from 'sweetalert2';
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -46,17 +45,17 @@ import Swal from 'sweetalert2';
 
 function Tables() {
   const dispatch = useDispatch();
-  const { emitents } = useSelector(state => state.emitents);
+  const { holders } = useSelector(state => state.holders);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
 
 
   useEffect(() => {
-    dispatch(fetchEmitents());
+    dispatch(fetchHolders());
   }, []);
 
   useEffect(() => {
-    dispatch(fetchEmitents({ page, searchTerm }));
+    dispatch(fetchHolders({ page, searchTerm }));
   }, [dispatch, page, searchTerm]);
 
   const handleSearchChange = (event) => {
@@ -87,7 +86,7 @@ function Tables() {
     });
   };
 
-console.log(emitents)
+console.log(holders)
   // const { columns, rows } = authorsTableData();
 
 
@@ -110,14 +109,14 @@ console.log(emitents)
                   coloredShadow="info"
                 >
                   <MDTypography variant="h5" color="white">
-                    Эмитенты
+                    Держатели
                   </MDTypography>
                 </MDBox>
                 <MDBox color="text" px={2}>
                   <MDButton variant="gradient" color="dark" component={NavLink}
                     to="/add-emitent">
                     <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                    Новый Эмитент
+                    Новый Держатель
                   </MDButton>
                 </MDBox>
               </MDBox>
@@ -133,15 +132,14 @@ console.log(emitents)
                       <TableRow>
                         <TableCell>Наименование</TableCell>
                         <TableCell>Действие</TableCell>
-
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {emitents.items.map((item, index) => (
+                      {holders.items.map((item, index) => (
                         <TableRow key={index}>
                           <TableCell>
                             <MDTypography variant="h6" color="dark">
-                              {item.full_name}
+                              {item.name}
                             </MDTypography>
                           </TableCell>
                           <TableCell>
@@ -154,15 +152,11 @@ console.log(emitents)
                               to={`/emitent/${item.id}`}
                             >
                               Выбрать
-                            </MDButton>
-
-
+                            </MDButton> 
                             <MDButton variant="outlined" color="error" size="small" style={{ marginLeft: '8px' }} onClick={() => onDelete(item.id)}>
                               Удалить
                             </MDButton>
-
                           </TableCell>
-
                         </TableRow>
                       ))}
                     </TableBody>
