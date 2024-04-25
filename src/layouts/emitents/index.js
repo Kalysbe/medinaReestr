@@ -35,8 +35,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import { fetchEmitents } from '../../redux/slices/emitents';
-import { fetchDeleteEmitent } from '../../redux/slices/emitents';
+import { fetchEmitents , fetchDeleteEmitent } from '../../redux/actions/emitents';
 import Swal from 'sweetalert2';
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";

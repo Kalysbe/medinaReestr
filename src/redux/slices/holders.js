@@ -37,10 +37,10 @@ const holdersSlice = createSlice({
           state.holders.status = "error";
         });
       // Действия для удаления эмитента
-      builder.addCase(fetchDeleteEmitent.pending, (state, action) => {
-        const postIdToRemove = action.meta.arg;
-        state.holders.items = state.holders.items.filter((obj) => obj._id !== postIdToRemove);
-      });
+      // builder.addCase(fetchDeleteEmitent.pending, (state, action) => {
+      //   const postIdToRemove = action.meta.arg;
+      //   state.holders.items = state.holders.items.filter((obj) => obj._id !== postIdToRemove);
+      // });
     },
   });
   

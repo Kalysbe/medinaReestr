@@ -64,31 +64,7 @@ function Projects() {
 
   return (
     <Card>
-      <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-        <MDBox>
-          <MDTypography variant="h6" gutterBottom>
-            Эмитенты
-          </MDTypography>
-         
-        </MDBox>
-        <MDBox color="text" px={2}>
-        <MDButton variant="gradient" color="dark"   component={NavLink} 
-          to="/add-post">
-            <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-          Новый Эмитент
-          </MDButton>
-        </MDBox>
-        {/* {renderMenu} */}
-      </MDBox>
-      <MDBox>
-        <DataTable
-          table={{ columns, rows }}
-          showTotalEntries={false}
-          isSorted={false}
-          noEndBorder
-          entriesPerPage={false}
-        />
-      </MDBox>
+ 
     </Card>
   );
 }

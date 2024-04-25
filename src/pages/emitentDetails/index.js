@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
+import * as React from 'react';
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
@@ -22,7 +23,7 @@ import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import { useLocation, NavLink ,useParams} from "react-router-dom";
+import { useLocation, NavLink, useParams } from "react-router-dom";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -38,6 +39,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CardContent, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
 // Data
 import authorsTableData from "pages/emitentDetails/data/authorsTableData";
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 
 const nav = [
@@ -52,11 +56,7 @@ const nav = [
             {
                 name: 'Ценные бумаги',
                 to: '/issuer/securities',
-            },
-            {
-                name: 'Печать',
-                to: '/base/cards',
-            },
+            }
         ],
     },
     {
@@ -345,11 +345,55 @@ const nav = [
 
 ]
 
+function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <MDBox sx={{ p: 2 }}>
+                    <MDTypography>{children}</MDTypography>
+                </MDBox>
+            )}
+        </div>
+    );
+}
+
+CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 
 
 function Tables() {
     const { id } = useParams();
     const { columns, rows } = authorsTableData();
+
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+
+
+
+
+
     // const { columns: pColumns, rows: pRows } = projectsTableData();
 
     return (
@@ -373,63 +417,47 @@ function Tables() {
                                     Эмитент: ЗАО НУР
                                 </MDTypography>
                             </MDBox>
-                            <MDBox pt={3} w={10}>
-                                {nav.map((item, index) => (
-                                    <Accordion key={index}>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls={`panel${index}-content`}
-                                            id={`panel${index}-header`}
-                                        >
-                                            <MDTypography variant="h5" color="dark">
-                                                {item.name}
-                                            </MDTypography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                                <Table style={{width:'inherit'}}>
-                                                    <TableHead style={{ display: 'table-header-group' }}>
-                                                        <TableRow>
-                                                            <TableCell>Наименование</TableCell>
-                                                            <TableCell>Действие</TableCell>
-                                                        </TableRow>
-                                                    </TableHead>
-                                                    <TableBody>
-                                                        {item.items.map((subItem, key) => (
-                                                            <TableRow key={key}>
-                                                                <TableCell>
-                                                                    <MDTypography variant="h6" color="dark">
-                                                                        {subItem.name}
-                                                                    </MDTypography>
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    <MDButton
-                                                                        variant="outlined"
-                                                                        color="info"
-                                                                        size="small"
-                                                                        component={NavLink}
-                                                                        to={`/emitent/${subItem.to}/${id}`}
-                                                                    >
-                                                                        Выбрать
-                                                                    </MDButton>
-                                                                    <MDButton
-                                                                        variant="outlined"
-                                                                        color="warning"
-                                                                        style={{marginLeft:'12px'}}
-                                                                        size="small"
-                                                                        component={NavLink}
-                                                                        to={`/emitent/${id}/edit`}
-                                                                    >
-                                                                        Изменить
-                                                                    </MDButton>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))}
-                                                    </TableBody>
-                                                </Table>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                ))}
+                            <MDBox px={2} py={2} sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                    {nav.map((item, index) => (
+                                        <Tab label={item.name} {...a11yProps(index)} />
+                                    ))}
+                                </Tabs>
                             </MDBox>
+                            {nav.map((item, index) => (
+                                <CustomTabPanel value={value} index={index}>
+                                    <Table style={{ width: 'inherit' }}>
+                                        <TableHead style={{ display: 'table-header-group' }}>
+                                            <TableRow>
+                                                <TableCell>Наименование</TableCell>
+                                                <TableCell>Действие</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {item.items.map((subItem, key) => (
+                                                <TableRow key={key}>
+                                                    <TableCell>
+                                                        <MDTypography variant="h6" color="dark">
+                                                            {subItem.name}
+                                                        </MDTypography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <MDButton
+                                                            variant="outlined"
+                                                            color="info"
+                                                            size="small"
+                                                            component={NavLink}
+                                                            to={`/emitent/${subItem.to}/${id}`}
+                                                        >
+                                                            Выбрать
+                                                        </MDButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </CustomTabPanel>
+                            ))}
                         </Card>
                     </Grid>
                 </Grid>

@@ -114,14 +114,14 @@ console.log(holders)
                 </MDBox>
                 <MDBox color="text" px={2}>
                   <MDButton variant="gradient" color="dark" component={NavLink}
-                    to="/add-emitent">
+                    to="/add-holder">
                     <Icon sx={{ fontWeight: "bold" }}>add</Icon>
                     Новый Держатель
                   </MDButton>
                 </MDBox>
               </MDBox>
               <MDBox mx={2}>
-                <MDInput label="Поиск по эмитентам"
+                <MDInput label="Поиск по держателям"
                   value={searchTerm}
                   onChange={handleSearchChange} fullWidth />
               </MDBox>
@@ -131,6 +131,14 @@ console.log(holders)
                     <TableHead style={{ display: 'table-header-group' }}>
                       <TableRow>
                         <TableCell>Наименование</TableCell>
+                        <TableCell>Фактический адрес</TableCell>
+                        <TableCell>Юридический адрес</TableCell>
+                        <TableCell>Почта</TableCell>
+                        <TableCell>Номер телефона</TableCell>
+                        <TableCell>Тип паспорта</TableCell>
+                        <TableCell>Номер паспорта</TableCell>
+                        <TableCell>Орган выдачи</TableCell>
+                        <TableCell>ИНН</TableCell>
                         <TableCell>Действие</TableCell>
                       </TableRow>
                     </TableHead>
@@ -143,19 +151,56 @@ console.log(holders)
                             </MDTypography>
                           </TableCell>
                           <TableCell>
-
+                            <MDTypography variant="h6" color="dark">
+                              {item.actual_address}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.legal_address}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.email}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.phone_number}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.passport_type}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.passport_number}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.passport_agency}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.inn}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
                             <MDButton
                               variant="outlined"
                               color="info"
                               size="small"
                               component={NavLink}
-                              to={`/emitent/${item.id}`}
+                              to={`/holder/${item.id}/edit`}
                             >
-                              Выбрать
+                              Редактировать
                             </MDButton> 
-                            <MDButton variant="outlined" color="error" size="small" style={{ marginLeft: '8px' }} onClick={() => onDelete(item.id)}>
-                              Удалить
-                            </MDButton>
+                          
                           </TableCell>
                         </TableRow>
                       ))}

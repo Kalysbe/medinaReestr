@@ -144,7 +144,7 @@ function AddPost(props) {
         <Container>
           <Paper style={{ padding: 30 }}>
             <MDTypography variant="h3" fontWeight="medium" lineHeight={1}>
-              Добавление эмитента
+            {isEditing ? 'Редактирование' : 'Добавление'} эмитента
             </MDTypography>
             <form>
               <MDBox mt={8}>
@@ -165,7 +165,7 @@ function AddPost(props) {
                 </Grid>
               </MDBox>
               <MDBox mt={8}>
-                <MDButton onClick={onSubmit} disabled={loading} variant="gradient" color="info" mx={8}
+                <MDButton onClick={onSubmit} disabled={loading} variant="gradient" color="info" mx={8} style={{marginRight:'12px'}}
                 >
                   {isEditing ? 'Сохранить' : 'Добавить'}
                 </MDButton>

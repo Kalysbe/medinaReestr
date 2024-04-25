@@ -38,7 +38,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/emitents";
-import Billing from "layouts/billing";
+import Holders from "layouts/holders";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
@@ -50,6 +50,7 @@ import EmitentDetails from "pages/emitentDetails"
 
 import PersonalData from "pages/personalData"
 import EditEmitent from "layouts/emitents/edit-emitent"
+import EditHolders from "layouts/holders/edit-holders"
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -66,7 +67,7 @@ const routes = [
   {
     type: "collapse",
     name: "Эмитенты",
-    key: "emitent",
+    key: "emitents",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/emitents",
     component: <Tables />,
@@ -85,7 +86,7 @@ const routes = [
     key: "holders",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/holders",
-    component: <Billing />,
+    component: <Holders />,
   },
   {
     type: "collapse",
@@ -98,7 +99,7 @@ const routes = [
   {
     // type: "collapse",
     name: "emitentDetails",
-    key: "emitentDetails",
+    key: "emitents",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/emitent/:id",
     component: <EmitentDetails />,
@@ -135,9 +136,8 @@ const routes = [
 
   //pages
   {
-    name: "Sign Up",
-    key: "table",
-    icon: <Icon fontSize="small">assignment</Icon>,
+    name: "emitent",
+    key: "emitent",
     route: "/emitent/personalData/:id",
     component: <PersonalData />,
   },
@@ -150,6 +150,16 @@ const routes = [
     key: "editemitent",
     route: "/emitent/:id/edit", 
     component: <EditEmitent />,
+  },
+  {
+    key: "add-holder",
+    route: "/add-holder", 
+    component: <EditHolders />,
+  },
+  {
+    key: "edit-holder",
+    route: "/holder/:id/edit", 
+    component: <EditHolders />,
   },
 
 ];
