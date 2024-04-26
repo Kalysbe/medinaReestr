@@ -24,24 +24,7 @@ import Swal from 'sweetalert2';
 import styles from './EditEmitent.css';
 
 
-let data = {
-  "full_name": "",
-  "short_name": "",
-  "director_company": "",
-  "director_registrar": "",
-  "accountant": "",
-  "gov_name": "",
-  "gov_number": "",
-  "legal_address": "",
-  "postal_address": "",
-  "phone_number": "",
-  "email": "",
-  "bank_name": "",
-  "bank_account": "",
-  "id_number": "",
-  "capital": "",
-  "contract_date": ""
-}
+
 
 function AddPost(props) {
   const { id } = useParams();
@@ -87,7 +70,7 @@ function AddPost(props) {
       setLoading(true);
       console.log(data)
       const response = isEditing 
-      ? await axios.put(`/emitents/${id}`, data)
+      ? await axios.put(`/holders/${id}`, data)
       : await axios.post('/holders', data)
 
       await Swal.fire({
@@ -108,9 +91,9 @@ function AddPost(props) {
   React.useEffect(() => {
     if (id) {
       axios
-        .get(`/holders/`)
+        .get(`/holders/${id}`)
         .then(({ data }) => {
-          setData(data.filter(item => item.id == id)[0])
+          setData(data)
         })
         .catch((err) => {
           console.warn(err);

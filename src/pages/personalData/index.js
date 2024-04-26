@@ -87,7 +87,7 @@ function Basic() {
             </MDBox>
             {/* <Container> */}
                 
-                    <MDBox px={3} >
+                    <MDBox px={3} mt={2}>
                         <MDTypography align='center' variant="h3" mr={2}>  </MDTypography>
                         <Grid container spacing={2}>
                             {formData.map((item, key) => (
