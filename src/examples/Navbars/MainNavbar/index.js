@@ -87,7 +87,7 @@ function DefaultNavbar({ transparent, light, action }) {
   };
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  console.log(isAuth, 'login')
+ 
   const newLocal = "../";
   return (
     <header className="header">

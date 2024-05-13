@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import Card from "@mui/material/Card";
+import Icon from "@mui/material/Icon";
 import SimpleMDE from 'react-simplemde-editor';
 import Container from '@mui/material/Container';
 import MDButton from "components/MDButton";
@@ -24,6 +25,17 @@ import Swal from 'sweetalert2';
 import styles from './EditEmitent.css';
 
 
+const formData = {
+  name: 'Наименование эмитента',
+  actual_address: 'Номер гос. регистрации',
+  legal_address: 'Орган осуществ-ший регистр',
+  email: 'Дата регистрации',
+  phone_number: 'Орган регистрации выпуска ценных бумаг',
+  passport_type: 'Адрес',
+  passport_number: 'Номер телефона',
+  passport_agency: 'Электронный адрес',
+  inn: 'Наименование банка эмитента'
+}
 
 
 function AddPost(props) {
@@ -68,10 +80,10 @@ function AddPost(props) {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      console.log(data)
-      const response = isEditing 
-      ? await axios.put(`/holders/${id}`, data)
-      : await axios.post('/holders', data)
+     
+      const response = isEditing
+        ? await axios.put(`/holders/${id}`, data)
+        : await axios.post('/holders', data)
 
       await Swal.fire({
         title: 'Успешно!',
@@ -79,7 +91,7 @@ function AddPost(props) {
         icon: 'success',
         confirmButtonText: 'Ок'
       });
-      navigate(`/holders/`);
+      navigate(`/emitent/${id}`);
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
       alert('Произошла ошибка при отправке данных на сервер');
@@ -93,14 +105,15 @@ function AddPost(props) {
       axios
         .get(`/holders/${id}`)
         .then(({ data }) => {
-          setData(data)
+          const { id, ...Emitentdata } = data
+          setData(Emitentdata)
         })
         .catch((err) => {
           console.warn(err);
           alert('Ошибка при получении статьи!');
         });
     }
-  }, [id]);
+  }, []);
 
 
   if (!window.localStorage.getItem('token') && !isAuth) {
@@ -112,19 +125,32 @@ function AddPost(props) {
     return (
       <>
         <DashboardNavbar />
-        <Container>
-          <Paper style={{ padding: 30 }}>
-            <MDTypography variant="h3" fontWeight="medium" lineHeight={1}>
-            {isEditing ? 'Редактирование' : 'Добавление'} держателя
-            </MDTypography>
+        {/* <Container> */}
+          <Card style={{ padding: 30 }}>
+          <MDBox display="flex" justifyContent="space-between" alignItems="center" py={1} mb={2}>
+                <MDBox
+                  mt={-3}
+                  py={1}
+                  px={6}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h5" color="white">
+                  {isEditing ? 'Редактирование' : 'Добавление'} держателя
+                  </MDTypography>
+                </MDBox>
+              </MDBox>
+        
             <form>
-              <MDBox mt={8}>
+              <MDBox>
                 <Grid container spacing={2}>
                   {Object.keys(data).map((key) => (
                     <Grid sm={12} md={4} item key={key}>
                       <MDInput
                         fullWidth
-                        label={key}
+                        label={formData[key]}
                         key={key}
                         type="text"
                         name={key}
@@ -135,18 +161,20 @@ function AddPost(props) {
                   ))}
                 </Grid>
               </MDBox>
-              <MDBox mt={8}>
-                <MDButton onClick={onSubmit} disabled={loading} variant="gradient" color="info" mx={8} style={{marginRight:'12px'}}
-                >
+              <MDBox mt={4} display="flex" justifyContent="end">
+              <MDButton color="error"
+                  component={NavLink}
+                  to='/emitents'
+                  style={{ marginRight: '12px' }}>
+                    Отмена
+                  </MDButton>
+                <MDButton onClick={onSubmit} disabled={loading} variant="gradient" color="info"  >
                   {isEditing ? 'Сохранить' : 'Добавить'}
                 </MDButton>
-                <MDButton color="error"
-                  component={NavLink}
-                  to='/emitents'>Отмена</MDButton>
               </MDBox>
             </form>
-          </Paper>
-        </Container>
+          </Card>
+        {/* </Container> */}
       </>
     );
   };

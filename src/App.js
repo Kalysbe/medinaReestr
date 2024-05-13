@@ -158,7 +158,7 @@ export default function App() {
 
       return null;
     });
-    console.log(layout)
+  
   const configsButton = (
     <MDBox
       display="flex"

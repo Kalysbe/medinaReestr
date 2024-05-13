@@ -10,6 +10,8 @@ import Container from '@mui/material/Container';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
+import MDInput from "components/MDInput";
+import { CardContent, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
 
 // Material Dashboard 2 React Components
 import MDTypography from "components/MDTypography";
@@ -43,6 +45,7 @@ const formData = [
 function Basic() {
     const { id } = useParams();
     const dispatch = useDispatch()
+    const [edit, setEdit] = useState(false)
     const { emitent } = useSelector(state => state.emitents);
 
 
@@ -54,74 +57,97 @@ function Basic() {
     const isEmitentLoading = emitent.status === 'loading'
     const emitentData = emitent.data
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const onEdit = (edit) => {
+        if (!edit) {
+            setEdit(edit)
+            return
+        }
+        setEdit(edit)
+    }
 
 
-    console.log(emitentData)
 
     return (
 
         <DashboardLayout>
             <DashboardNavbar />
-            <Card py={2}>
-            <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
-                <MDBox
-                    variant="gradient"
-                    bgColor={'info'}
-                    color={ "white" }
-                    coloredShadow={'light'}
-                    borderRadius="xl"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    width="4rem"
-                    height="4rem"
-                    mt={-3}
-                >
-                    <Icon fontSize="medium" color="inherit">
-                    person
-                    </Icon>
-                </MDBox>
-                <MDBox textAlign="right" lineHeight={1.25}>
-                    <MDTypography variant="h4">Карточка эмитента</MDTypography>
-                </MDBox>
-            </MDBox>
-            {/* <Container> */}
-                
+            <Card>
+                <MDBox py={3}>
+                    <MDBox display="flex" justifyContent="space-between" alignItems="center" py={1}>
+                        <MDBox
+                            mx={2}
+                            mt={-3}
+                            py={1}
+                            px={6}
+                            variant="gradient"
+                            bgColor="info"
+                            borderRadius="lg"
+                            coloredShadow="info"
+                        >
+                            <MDTypography variant="h5" color="white">
+                                Карточка эмитента
+                            </MDTypography>
+                        </MDBox>
+                        {/* <MDBox color="text" px={2}>
+                  <MDButton variant="gradient" color="dark" component={NavLink}
+                    to="/add-emitent">
+                    <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+                    Новый Эмитент
+                  </MDButton>
+                </MDBox> */}
+                    </MDBox>
+                    {/* <Container> */}
                     <MDBox px={3} mt={2}>
                         <MDTypography align='center' variant="h3" mr={2}>  </MDTypography>
-                        <Grid container spacing={2}>
-                            {formData.map((item, key) => (
-                                <Grid sm={12} md={12} item key={key}>
-                                    <MDBox display="flex" alignItems="center">
-                                        <MDTypography variant="h6" mr={2}> {item.name}: </MDTypography>
-                                        <MDTypography variant="h6">  {emitentData[item.key]}</MDTypography>
-                                    </MDBox>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        <Table>
+                            <TableBody>
+                                {formData.map((item, key) => (
+                                    <TableRow key={key}>
+                                        <TableCell width={'30%'}>
+                                            <MDTypography variant="h6" color="dark" >
+                                                {item.name}
+                                            </MDTypography>
+                                        </TableCell>
+                                        <TableCell fullWidth>
+                                                <MDTypography variant="h6" color="dark">
+                                                    {emitentData[item.key]}
+                                                </MDTypography>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </MDBox>
-                    <MDBox px={3} display="flex" alignItems="center" justifyContent="end">
-                        <MDButton
-                            variant="outlined"
-                            color="info"
-                            size="small"
-                            style={{marginRight:'12px'}}
-                            component={NavLink}
-                            to={`/emitent/${id}/edit`}
-                        >
-                            Редактировать
-                        </MDButton>
-                        <MDButton
-                            variant="outlined"
-                            color="warning"
-                            size="small"
-                        >
-                            Печать
-                        </MDButton>
-                    </MDBox>       
-            {/* </Container> */}
-            </Card>
-        </DashboardLayout>
+                        <MDBox px={3} display="flex" alignItems="center" justifyContent="end">
+                            <MDButton
+                                variant="outlined"
+                                color="info"
+                                size="small"
+                                style={{ marginRight: '12px' }}
+                                component={NavLink}
+                                to={`/emitent/${id}/edit`}
+                            >
+                                Редактировать
+                            </MDButton>
+                            <MDButton
+                                variant="outlined"
+                                color="warning"
+                                size="small"
+                            >
+                                Печать
+                            </MDButton>
+                        </MDBox>
+                </MDBox>
+            </Card >
+        </DashboardLayout >
     );
 };
 

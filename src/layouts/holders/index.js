@@ -86,7 +86,6 @@ function Tables() {
     });
   };
 
-console.log(holders)
   // const { columns, rows } = authorsTableData();
 
 

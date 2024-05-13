@@ -92,7 +92,7 @@ function AddPost(props) {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      console.log(data)
+  
       const response = await axios.post('/emitents', data);
 
       // Показ оповещения об успешной отправке с помощью SweetAlert2

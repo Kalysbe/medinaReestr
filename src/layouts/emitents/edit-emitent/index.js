@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import Card from "@mui/material/Card";
+import Icon from "@mui/material/Icon";
 import SimpleMDE from 'react-simplemde-editor';
 import Container from '@mui/material/Container';
 import MDButton from "components/MDButton";
@@ -24,24 +25,26 @@ import Swal from 'sweetalert2';
 import styles from './EditEmitent.css';
 
 
-let data = {
-  "full_name": "",
-  "short_name": "",
-  "director_company": "",
-  "director_registrar": "",
-  "accountant": "",
-  "gov_name": "",
-  "gov_number": "",
-  "legal_address": "",
-  "postal_address": "",
-  "phone_number": "",
-  "email": "",
-  "bank_name": "",
-  "bank_account": "",
-  "id_number": "",
-  "capital": "",
-  "contract_date": ""
-}
+const formData =  { 
+  full_name: 'Наименование эмитента',
+   short_name: 'Номер гос. регистрации',
+   gov_name: 'Орган осуществ-ший регистр',
+   gov_number: 'Дата регистрации',
+   gov_number: 'Орган регистрации выпуска ценных бумаг',
+   legal_address: 'Адрес',
+   phone_number: 'Номер телефона',
+   email: 'Электронный адрес',
+   bank_name: 'Наименование банка эмитента',
+   bank_account: 'Счет в банке',
+   id_number: 'Идентификационный номер',
+   contract_date: 'Номер договора с регистратором',
+   contract_date: 'Дата заключения договора',
+   capital: 'Размер уставного капитала',
+   director_registrar: 'Ф.И.О директора "Медина"',
+   accountant: 'Ф.И.О гл. бухгалтера АО',
+   director_company: 'Ф.И.О руководителя АО' 
+  }
+
 
 function AddPost(props) {
   const { id } = useParams();
@@ -92,10 +95,10 @@ function AddPost(props) {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      console.log(data)
-      const response = isEditing 
-      ? await axios.put(`/emitents/${id}`, data)
-      : await axios.post('/emitents', data)
+     
+      const response = isEditing
+        ? await axios.put(`/emitents/${id}`, data)
+        : await axios.post('/emitents', data)
 
       await Swal.fire({
         title: 'Успешно!',
@@ -117,12 +120,8 @@ function AddPost(props) {
       axios
         .get(`/emitents/${id}`)
         .then(({ data }) => {
-          setData(data)
-          console.log(data)
-          // setTitle(data.title);
-          // setText(data.text);
-          // setImageUrl(data.imageUrl);
-          // setTags(data.tags.join(','));
+          const { id, ...Emitentdata } = data
+          setData(Emitentdata)
         })
         .catch((err) => {
           console.warn(err);
@@ -141,19 +140,32 @@ function AddPost(props) {
     return (
       <>
         <DashboardNavbar />
-        <Container>
-          <Paper style={{ padding: 30 }}>
-            <MDTypography variant="h3" fontWeight="medium" lineHeight={1}>
-            {isEditing ? 'Редактирование' : 'Добавление'} эмитента
-            </MDTypography>
+        {/* <Container> */}
+          <Card style={{ padding: 30 }}>
+          <MDBox display="flex" justifyContent="space-between" alignItems="center" py={1} mb={2}>
+                <MDBox
+                  mt={-3}
+                  py={1}
+                  px={6}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h5" color="white">
+                  {isEditing ? 'Редактирование' : 'Добавление'} эмитента
+                  </MDTypography>
+                </MDBox>
+              </MDBox>
+        
             <form>
-              <MDBox mt={8}>
+              <MDBox>
                 <Grid container spacing={2}>
                   {Object.keys(data).map((key) => (
                     <Grid sm={12} md={4} item key={key}>
                       <MDInput
                         fullWidth
-                        label={key}
+                        label={formData[key]}
                         key={key}
                         type="text"
                         name={key}
@@ -164,18 +176,20 @@ function AddPost(props) {
                   ))}
                 </Grid>
               </MDBox>
-              <MDBox mt={8}>
-                <MDButton onClick={onSubmit} disabled={loading} variant="gradient" color="info" mx={8} style={{marginRight:'12px'}}
-                >
+              <MDBox mt={4} display="flex" justifyContent="end">
+              <MDButton color="error"
+                  component={NavLink}
+                  to='/emitents'
+                  style={{ marginRight: '12px' }}>
+                    Отмена
+                  </MDButton>
+                <MDButton onClick={onSubmit} disabled={loading} variant="gradient" color="info"  >
                   {isEditing ? 'Сохранить' : 'Добавить'}
                 </MDButton>
-                <MDButton color="error"
-                  component={NavLink}
-                  to='/emitents'>Отмена</MDButton>
               </MDBox>
             </form>
-          </Paper>
-        </Container>
+          </Card>
+        {/* </Container> */}
       </>
     );
   };

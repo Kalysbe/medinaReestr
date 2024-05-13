@@ -83,7 +83,7 @@ function Basic() {
   if (isAuth) {
     return <Navigate to='/dashboard' />
   }
-  console.log(isAuth)
+
 
   return (
     <BasicLayout image={bgImage}>
