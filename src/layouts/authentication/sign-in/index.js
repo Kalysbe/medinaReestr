@@ -72,6 +72,8 @@ function Basic() {
       return alert('Не удалось авторизоваться')
     }
 
+    console.log(data.payload.token,'payload')
+
     if ('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token)
     } else {

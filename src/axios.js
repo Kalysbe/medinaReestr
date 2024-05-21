@@ -8,7 +8,7 @@ instance.interceptors.request.use((config) => {
     // Добавление токена авторизации к заголовкам запроса
     const token = window.localStorage.getItem("token");
     if (token) {
-        config.headers.Authorization = token;
+        config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 });

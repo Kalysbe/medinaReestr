@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from 'react'
+// Basic.js
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, NavLink, useParams } from "react-router-dom";
+import { Grid, Card, Container, Table, TableBody, TableRow, TableCell } from '@mui/material';
 
-
-import Grid from '@mui/material/Grid';
-import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import Container from '@mui/material/Container';
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
-import MDInput from "components/MDInput";
-import { CardContent, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
-
-// Material Dashboard 2 React Components
 import MDTypography from "components/MDTypography";
-
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-
 import { fetchEmitentById } from '../../redux/actions/emitents';
 
+import EmitentCard from 'pages/prints/EmitentCard';
+import { useReactToPrint } from 'react-to-print';
 
 const formData = [
     { key: 'full_name', name: 'Наименование эмитента' },
@@ -44,39 +36,22 @@ const formData = [
 
 function Basic() {
     const { id } = useParams();
-    const dispatch = useDispatch()
-    const [edit, setEdit] = useState(false)
-    const { emitent } = useSelector(state => state.emitents);
+    const dispatch = useDispatch();
+    const emitent = useSelector(state => state.emitents.emitent);
+    const isEmitentLoading = emitent.status === 'loading';
+    const emitentData = emitent.data;
 
-
+    const printRef = useRef();
 
     useEffect(() => {
         dispatch(fetchEmitentById(id));
-    }, []);
+    }, [dispatch, id]);
 
-    const isEmitentLoading = emitent.status === 'loading'
-    const emitentData = emitent.data
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
-
-    const onEdit = (edit) => {
-        if (!edit) {
-            setEdit(edit)
-            return
-        }
-        setEdit(edit)
-    }
-
-
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
 
     return (
-
         <DashboardLayout>
             <DashboardNavbar />
             <Card>
@@ -96,15 +71,7 @@ function Basic() {
                                 Карточка эмитента
                             </MDTypography>
                         </MDBox>
-                        {/* <MDBox color="text" px={2}>
-                  <MDButton variant="gradient" color="dark" component={NavLink}
-                    to="/add-emitent">
-                    <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                    Новый Эмитент
-                  </MDButton>
-                </MDBox> */}
                     </MDBox>
-                    {/* <Container> */}
                     <MDBox px={3} mt={2}>
                         <MDTypography align='center' variant="h3" mr={2}>  </MDTypography>
                         <Table>
@@ -112,43 +79,47 @@ function Basic() {
                                 {formData.map((item, key) => (
                                     <TableRow key={key}>
                                         <TableCell width={'30%'}>
-                                            <MDTypography variant="h6" color="dark" >
+                                            <MDTypography variant="h6" color="dark">
                                                 {item.name}
                                             </MDTypography>
                                         </TableCell>
                                         <TableCell fullWidth>
-                                                <MDTypography variant="h6" color="dark">
-                                                    {emitentData[item.key]}
-                                                </MDTypography>
+                                            <MDTypography variant="h6" color="dark">
+                                                {emitentData[item.key]}
+                                            </MDTypography>
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </MDBox>
-                        <MDBox px={3} display="flex" alignItems="center" justifyContent="end">
-                            <MDButton
-                                variant="outlined"
-                                color="info"
-                                size="small"
-                                style={{ marginRight: '12px' }}
-                                component={NavLink}
-                                to={`/emitent/${id}/edit`}
-                            >
-                                Редактировать
-                            </MDButton>
-                            <MDButton
-                                variant="outlined"
-                                color="warning"
-                                size="small"
-                            >
-                                Печать
-                            </MDButton>
-                        </MDBox>
+                    <MDBox px={3} display="flex" alignItems="center" justifyContent="end">
+                        <MDButton
+                            variant="outlined"
+                            color="info"
+                            size="small"
+                            style={{ marginRight: '12px' }}
+                            component={NavLink}
+                            to={`/emitent/${id}/edit`}
+                        >
+                            Редактировать
+                        </MDButton>
+                        <MDButton
+                            variant="outlined"
+                            color="warning"
+                            size="small"
+                            onClick={handlePrint}
+                        >
+                            Печать
+                        </MDButton>
+                    </MDBox>
                 </MDBox>
-            </Card >
-        </DashboardLayout >
+            </Card>
+            <div style={{ display: 'none' }}>
+                <EmitentCard ref={printRef} id={id} />
+            </div>
+        </DashboardLayout>
     );
-};
+}
 
 export default Basic;

@@ -49,7 +49,7 @@ import SignUp from "layouts/authentication/sign-up";
 import EmitentDetails from "pages/emitentDetails"
 
 import PersonalData from "pages/personalData"
-import EditEmitent from "layouts/emitents/edit-emitent"
+import EditEmitent from "layouts/emitents/EditEmitent"
 import EditHolders from "layouts/holders/edit-holders"
 
 // @mui icons

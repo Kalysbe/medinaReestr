@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchEmitents, fetchDeleteEmitent, fetchEmitentById } from '../actions/emitents'
+import { fetchEmitents, fetchEmitentById, fetchAddEmitent, fetchUpdateEmitent, fetchDeleteEmitent } from '../actions/emitents'
 
 
 const initialState = {
@@ -8,11 +8,7 @@ const initialState = {
     status: "loading"
   },
   emitent: {
-    data: [],
-    status: "loading"
-  },
-  tags: {
-    items: [],
+    data: {},
     status: "loading"
   }
 }
@@ -22,7 +18,7 @@ const emitentsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // Действия для получения постов
+    // Действия для получения эмитентов
     builder
       .addCase(fetchEmitents.pending, (state) => {
         state.emitents.items = [];
@@ -39,7 +35,6 @@ const emitentsSlice = createSlice({
 
     builder
       .addCase(fetchEmitentById.pending, (state) => {
-        state.emitent.data = [];
         state.emitent.status = "loading";
       })
       .addCase(fetchEmitentById.fulfilled, (state, action) => {
@@ -47,9 +42,34 @@ const emitentsSlice = createSlice({
         state.emitent.status = "loaded";
       })
       .addCase(fetchEmitentById.rejected, (state) => {
-        state.emitent.data = [];
+        state.emitent.data = {};
         state.emitent.status = "error";
       });
+
+    builder
+      .addCase(fetchAddEmitent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddEmitent.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchAddEmitent.rejected, (state) => {
+        state.status = "error";
+      });
+
+    builder
+      .addCase(fetchUpdateEmitent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchUpdateEmitent.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchUpdateEmitent.rejected, (state) => {
+        state.status = "error";
+      });
+
     // Действия для удаления эмитента
     builder.addCase(fetchDeleteEmitent.pending, (state, action) => {
       const postIdToRemove = action.meta.arg;
