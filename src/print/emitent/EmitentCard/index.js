@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCardEmitent } from '../../../redux/actions/prints';
-import ReestrData from '../ReestrData'
+import ReestrData from '../../ReestrData'
 import { Box, Table, TableHead, TableBody, TableRow, TableCell, CircularProgress } from '@mui/material';
 import MDTypography from "components/MDTypography";
 

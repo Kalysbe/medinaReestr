@@ -49,15 +49,21 @@ const EditEmitent = () => {
   );
 
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     if (isEditing) {
       dispatch(fetchEmitentById(id));
+    } else {
+      setFormData(
+        formConfig.reduce((acc, { key }) => {
+          acc[key] = '';
+          return acc;
+        }, {})
+      );
     }
   }, [dispatch, id, isEditing]);
 
   useEffect(() => {
-    if (emitent && emitent.data) {
+    if (isEditing && emitent && emitent.data) {
       const { id, ...emitentData } = emitent.data;
       setFormData(emitentData);
     }
@@ -138,7 +144,7 @@ const EditEmitent = () => {
             <MDButton
               color="error"
               component={NavLink}
-              to={`/emitent/personalData/${id}`}
+              to={isEditing ? `/emitent/personalData/${id}` : '/emitents'}
               style={{ marginRight: '12px' }}
             >
               Назад

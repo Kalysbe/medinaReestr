@@ -5,3 +5,10 @@ export const fetchCardEmitent = createAsyncThunk("prints/fetchCardEmitent", asyn
   const { data } = await axios.get(`/prints/emitent/${id}/card`);
   return data;
 })
+
+export const fetchExtractReestr = createAsyncThunk("prints/fetchExtractReestr", async ({eid, hid}) => {
+  const { data } = await axios.get(`/prints/emitent/${eid}/reestr/${hid}`);
+  return data;
+})
+
+

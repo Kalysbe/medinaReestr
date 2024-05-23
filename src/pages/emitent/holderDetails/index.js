@@ -9,43 +9,36 @@ import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { fetchEmitentById } from '../../redux/actions/emitents';
+import { fetchHolderById } from '../../../redux/actions/holders';
 
-import EmitentCard from 'pages/prints/EmitentCard';
+import ExtractReestr from 'print/emitent/ExtractReestr';
 import { useReactToPrint } from 'react-to-print';
 
 const formData = [
-    { key: 'full_name', name: 'Наименование эмитента' },
-    { key: 'short_name', name: 'Номер гос. регистрации' },
-    { key: 'gov_name', name: 'Орган осуществ-ший регистр' },
-    { key: 'gov_number', name: 'Дата регистрации' },
-    { key: 'gov_number', name: 'Орган регистрации выпуска ценных бумаг' },
-    { key: 'legal_address', name: 'Адрес' },
-    { key: 'phone_number', name: 'Номер телефона' },
-    { key: 'email', name: 'Электронный адрес' },
-    { key: 'bank_name', name: 'Наименование банка эмитента' },
-    { key: 'bank_account', name: 'Счет в банке' },
-    { key: 'id_number', name: 'Идентификационный номер' },
-    { key: 'contract_date', name: 'Номер договора с регистратором' },
-    { key: 'contract_date', name: 'Дата заключения договора' },
-    { key: 'capital', name: 'Размер уставного капитала' },
-    { key: 'director_registrar', name: 'Ф.И.О директора "Медина"' },
-    { key: 'accountant', name: 'Ф.И.О гл. бухгалтера АО' },
-    { key: 'director_company', name: 'Ф.И.О руководителя АО' }
+    { key: 'name', name: 'Наименование' },
+    { key: 'actual_address', name: 'Фактический адрес' },
+    { key: 'email', name: 'Почта' },
+    { key: 'inn', name: 'ИНН' },
+    { key: 'legal_address', name: 'Юридический адрес' },
+    { key: 'passport_agency', name: 'Орган выдачи' },
+    { key: 'passport_number', name: 'Номер паспорта' },
+    { key: 'passport_type', name: 'Тип паспорта' },
+    { key: 'phone_number', name: 'Номер телефона' }
 ]
 
 function Basic() {
-    const { id } = useParams();
+    const { eid, hid } = useParams();
+    console.log(eid,hid)
     const dispatch = useDispatch();
-    const emitent = useSelector(state => state.emitents.emitent);
-    const isEmitentLoading = emitent.status === 'loading';
-    const emitentData = emitent.data;
-
+    const holder = useSelector(state => state.holders.holder);
+    const isHolderLoading = holder.status === 'loading';
+    const holderData = holder.data;
+    console.log(holderData)
     const printRef = useRef();
 
     useEffect(() => {
-        dispatch(fetchEmitentById(id));
-    }, [dispatch, id]);
+        dispatch(fetchHolderById(eid));
+    }, [dispatch, eid]);
 
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
@@ -68,12 +61,12 @@ function Basic() {
                             coloredShadow="info"
                         >
                             <MDTypography variant="h5" color="white">
-                                Карточка эмитента
+                                Держатель
                             </MDTypography>
                         </MDBox>
                     </MDBox>
                     <MDBox px={3} mt={2}>
-                        <MDTypography align='center' variant="h3" mr={2}>  </MDTypography>
+                        <MDTypography align='center' variant="h3" mr={2}></MDTypography>
                         <Table>
                             <TableBody>
                                 {formData.map((item, key) => (
@@ -85,7 +78,7 @@ function Basic() {
                                         </TableCell>
                                         <TableCell fullWidth>
                                             <MDTypography variant="h6" color="dark">
-                                                {emitentData[item.key]}
+                                                {holderData[item.key]}
                                             </MDTypography>
                                         </TableCell>
                                     </TableRow>
@@ -94,16 +87,6 @@ function Basic() {
                         </Table>
                     </MDBox>
                     <MDBox px={3} display="flex" alignItems="center" justifyContent="end">
-                        <MDButton
-                            variant="outlined"
-                            color="info"
-                            size="small"
-                            style={{ marginRight: '12px' }}
-                            component={NavLink}
-                            to={`/emitent/${id}/edit`}
-                        >
-                            Редактировать
-                        </MDButton>
                         <MDButton
                             variant="outlined"
                             color="warning"
@@ -116,7 +99,7 @@ function Basic() {
                 </MDBox>
             </Card>
             <div style={{ display: 'none' }}>
-                <EmitentCard ref={printRef} id={id} />
+                <ExtractReestr ref={printRef} eid={eid} hid={hid}/>
             </div>
         </DashboardLayout>
     );

@@ -45,12 +45,19 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
-//dashboard
-import EmitentDetails from "pages/emitentDetails"
+//pages
 
-import PersonalData from "pages/personalData"
-import EditEmitent from "layouts/emitents/EditEmitent"
+//emitents
+import EmitentDetails from "pages/emitentDetails"
+import PersonalData from "pages/emitent/emitentDetails"
+import EditEmitent from "pages/emitent/EditEmitent"
 import EditHolders from "layouts/holders/edit-holders"
+import EmitentHolders from "pages/emitent/holders"
+import EmitentHolderDetails from "pages/emitent/holderDetails"
+
+//holders
+import HolderDetails from 'pages/holders/details'
+
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -152,6 +159,18 @@ const routes = [
     component: <EditEmitent />,
   },
   {
+    key: "emitent-holders",
+    route: "/emitent/holders/:id", 
+    component: <EmitentHolders />,
+  },
+  {
+    key: "emitent-holders",
+    route: "/emitent/:eid/holder/:hid", 
+    component: <EmitentHolderDetails />,
+  },
+
+  //holders
+  {
     key: "add-holder",
     route: "/add-holder", 
     component: <EditHolders />,
@@ -161,6 +180,12 @@ const routes = [
     route: "/holder/:id/edit", 
     component: <EditHolders />,
   },
+  {
+    key: "edit-holder",
+    route: "/holder/:id", 
+    component: <HolderDetails />,
+  },
+
 
 ];
 

@@ -58,38 +58,7 @@ import { layouts } from "chart.js";
 
 
 
-import "./assets/css/layerslider.css"
-import "./assets/css/classic-theme.css"
-import "./assets/css/global.css"
-import "./assets/css/extendify-utilities.css"
-import "./assets/css/styles.css"
-import "./assets/css/style.css"
-import "./assets/css/flaticon_plugin-plate-icons.css"
-import "./assets/css/custom-style.css"
-import "./assets/css/slick.css"
-import "./assets/css/perfect-scrollbar.min.css"
-import "./assets/css/custom-theme.css"
-import "./assets/css/magnific-popup.css"
-import "./assets/css/feather.css"
-import "./assets/css/frontend.css"
-import "./assets/css/webfont.min.css"
-import "./assets/css/elementor-icons.min.css"
-import "./assets/css/frontend-legacy.min.css"
-import "./assets/css/frontend.min.css"
-import "./assets/css/swiper.min.css"
-import "./assets/css/post-12.css"
-import "./assets/css/post-61.css"
-import "./assets/css/style_1.css"
-import "./assets/css/fontawesome.min_1.css"
-import "./assets/css/bootstrap.min.css"
-import "./assets/css/style_2.css"
-import "./assets/css/color.schemes.css"
-import "./assets/css/fontawesome.min.css"
-import "./assets/css/fonts.css"
-import "./assets/css/post-2106.css"
-import "./assets/css/post-172.css"
-import "./assets/css/core-block-supports.css"
-import "./assets/css/animations.min.css"
+
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {

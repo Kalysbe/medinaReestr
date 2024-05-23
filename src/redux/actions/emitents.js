@@ -12,7 +12,7 @@ export const fetchEmitentById = createAsyncThunk("emitents/fetchEmitentById", as
 })
 
 export const fetchAddEmitent = createAsyncThunk("emitents/fetchAddEmitent", async (data) => {
-  const response = await axios.post(`/emitents/${id}`, data);
+  const response = await axios.post(`/emitents`, data);
   return response.data;
 })
 

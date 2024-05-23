@@ -21,7 +21,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import { CardContent, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation,useParams, NavLink } from "react-router-dom";
 
 
 // Material Dashboard 2 React components
@@ -36,7 +36,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import { fetchHolders } from '../../redux/actions/holders';
+import { fetchHolders } from '../../../redux/actions/holders';
 import Swal from 'sweetalert2';
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -49,7 +49,7 @@ function Tables() {
   const { holders } = useSelector(state => state.holders);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
-
+  const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchHolders());
@@ -131,15 +131,8 @@ function Tables() {
                     <TableHead style={{ display: 'table-header-group' }}>
                       <TableRow>
                         <TableCell>Наименование</TableCell>
-                        <TableCell>Фактический адрес</TableCell>
-                        <TableCell>Юридический адрес</TableCell>
-                        <TableCell>Почта</TableCell>
-                        <TableCell>Номер телефона</TableCell>
-                        <TableCell>Тип паспорта</TableCell>
-                        <TableCell>Номер паспорта</TableCell>
-                        <TableCell>Орган выдачи</TableCell>
-                        <TableCell>ИНН</TableCell>
-                        <TableCell>Действие</TableCell>
+                        
+    
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -147,59 +140,22 @@ function Tables() {
                         <TableRow key={index}>
                           <TableCell>
                             <MDTypography variant="h6" color="dark">
-                            <Link to={`/holder/${item.id}`}> {item.name}</Link>
+                            <Link to={`/emitent/${id}/holder/${item.id}`}> {item.name}</Link>
             
                             </MDTypography>
                           </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.actual_address}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.legal_address}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.email}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.phone_number}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.passport_type}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.passport_number}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.passport_agency}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="h6" color="dark">
-                              {item.inn}
-                            </MDTypography>
-                          </TableCell>
+                          
+                         
+                     
                           <TableCell>
                             <MDButton
                               variant="outlined"
                               color="info"
                               size="small"
                               component={NavLink}
-                        
+                              to={`/emitent/${id}/holder/${item.id}`}
                             >
-                              Редактировать
+                              Открыть
                             </MDButton> 
                           
                           </TableCell>

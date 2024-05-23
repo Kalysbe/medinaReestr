@@ -85,37 +85,9 @@ const nav = [
         name: 'Реестр',
         items: [
             {
-                name: 'Form Control',
-                to: '/forms/form-control',
-            },
-            {
-                name: 'Select',
-                to: '/forms/select',
-            },
-            {
-                name: 'Checks & Radios',
-                to: '/forms/checks-radios',
-            },
-            {
-                name: 'Range',
-                to: '/forms/range',
-            },
-            {
-                name: 'Input Group',
-                to: '/forms/input-group',
-            },
-            {
-                name: 'Floating Labels',
-                to: '/forms/floating-labels',
-            },
-            {
-                name: 'Layout',
-                to: '/forms/layout',
-            },
-            {
-                name: 'Validation',
-                to: '/forms/validation',
-            },
+                name: 'Держатели',
+                to: 'holders',
+            }
         ],
     },
     {
