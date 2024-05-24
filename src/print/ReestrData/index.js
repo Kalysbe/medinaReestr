@@ -17,17 +17,17 @@ const company = {
     }
 
 
-
 function ReestrData() {
     const data = useSelector(state => state.auth.data);
     console.log(data, 'print')
     return (
-        <div>
-            {company.name}
-            {company.gov_name}
-            {company.gov_number}
-            {company.license}
-            {company.phone_number}
+        <div style={{  padding: 15}}>
+            <h5>Держатель реестра:</h5>
+            <b>{company.name}</b><br></br>
+            <span>Орган государственной регистрации: &nbsp;<b>{company.gov_name}</b></span><br></br>
+            <span>Регистрационный номеар: &nbsp;<b>{company.gov_number}</b></span><br></br>
+            <span>Лицензия: &nbsp;<b>{company.license}</b></span><br></br>
+            <span>Юридический адрес: &nbsp;<b>{company.phone_number}</b></span><br></br>
         </div>
     );
 };
