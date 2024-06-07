@@ -55,6 +55,8 @@ import EditHolders from "layouts/holders/edit-holders"
 import EmitentHolders from "pages/emitent/holders"
 import EmitentHolderDetails from "pages/emitent/holderDetails"
 
+import EmitentTransfer from "pages/emitent/operations/transfer"
+
 //holders
 import HolderDetails from 'pages/holders/details'
 
@@ -79,14 +81,6 @@ const routes = [
     route: "/emitents",
     component: <Tables />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Эмиссии",
-  //   key: "allposts",
-  //   icon: <Icon fontSize="small">notifications</Icon>,
-  //   route: "/allposts/",
-  //   component: <EditBlog />,
-  // },
   {
     type: "collapse",
     name: "Держатели",
@@ -111,19 +105,6 @@ const routes = [
     route: "/emitent/:id",
     component: <EmitentDetails />,
   },
-
-
-
-
-
-  // {
-  //   type: "collapse",
-  //   name: "Profile",
-  //   key: "profile",
-  //   icon: <Icon fontSize="small">person</Icon>,
-  //   route: "/profile",
-  //   component: <Profile />,
-  // },
   {
   
     name: "Sign In",
@@ -167,6 +148,13 @@ const routes = [
     key: "emitent-holders",
     route: "/emitent/:eid/holder/:hid", 
     component: <EmitentHolderDetails />,
+  },
+
+  //operations
+  {
+    key: "emitent-transfer",
+    route: "/emitent/:eid/operation/transfer", 
+    component: <EmitentTransfer />,
   },
 
   //holders

@@ -66,18 +66,22 @@ const nav = [
             {
                 name: 'Журнал операций с акциями',
                 to: '/buttons/buttons',
+                 disabled:true
             },
             {
                 name: 'Журнал выдачи выписок',
                 to: '/buttons/button-groups',
+                 disabled:true
             },
             {
                 name: 'Журнал входящих документов',
                 to: '/buttons/dropdowns',
+                 disabled:true
             },
             {
                 name: 'Журнал изменения реестра',
                 to: '/buttons/dropdowns',
+                 disabled:true
             },
         ],
     },
@@ -95,58 +99,74 @@ const nav = [
         items: [
             {
                 name: 'Передача',
-                to: '/icons/coreui-icons',
+                to: 'operation/transfer',
+            },
+            {
+                name: 'Залог',
+                to: '/icons/flags',
+                 disabled:true
             },
             {
                 name: 'Высвобождение из залога',
                 to: '/icons/flags',
+                 disabled:true
             },
             {
                 name: 'Конвертация',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: 'Одноместная операция',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Изменение в залоге',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Анулировать пакет акции',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Блокировать акции одного акционера',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Отмена блокировки акций одного акционера',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Блокировать весь реестр',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Отмена блокировки всего реестра',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
 
                 name: 'Перевод реестра на эмиссионный счет',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: 'Конвертация ОАО "Международный аэропорт МАНАС"',
                 to: '/icons/brands',
+                 disabled:true
             },
         ],
     },
@@ -156,98 +176,122 @@ const nav = [
             {
                 name: '01 Реестр адресов на дивиденды',
                 to: '/icons/coreui-icons',
+                 disabled:true
             },
             {
                 name: '02 Реестр адресов для других целей',
                 to: '/icons/flags',
+                 disabled:true
             },
             {
                 name: '03 Реестр по % кол-ву',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '04 Печать реестра',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '05 Сводная по % кол-ву',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '06 Без паспорта или адреса',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '07 Печать реестра на собрание',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '08 Полный реестр',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '09 Явочный лист',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '10 Возврат почтовых уведомлений',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '11 Полный реестр с учетом выпуска',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '12 Список реестра акционеров',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '13 Полный реестр по регионам',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '14 Реестр с залоговыми операциями',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '15 Список операций купли-продажи',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '16 Сведений об акционерах для банка Кыргызстан',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
             {
                 name: '03 ',
                 to: '/icons/brands',
+                 disabled:true
             },
         ],
     },
@@ -257,18 +301,22 @@ const nav = [
             {
                 name: 'Расчет',
                 to: '/notifications/alerts',
+                 disabled:true
             },
             {
                 name: 'Ведомость расчета',
                 to: '/notifications/badges',
+                 disabled:true
             },
             {
                 name: 'Платежная ведомость',
                 to: '/notifications/modals',
+                 disabled:true
             },
             {
                 name: 'Сводная ведомость',
                 to: '/notifications/toasts',
+                 disabled:true
             },
         ],
     },
@@ -278,18 +326,22 @@ const nav = [
             {
                 name: 'Alerts',
                 to: '/notifications/alerts',
+                 disabled:true
             },
             {
                 name: 'Badges',
                 to: '/notifications/badges',
+                 disabled:true
             },
             {
                 name: 'Modal',
                 to: '/notifications/modals',
+                 disabled:true
             },
             {
                 name: 'Toasts',
                 to: '/notifications/toasts',
+                disabled:true
             },
         ],
     },
@@ -299,18 +351,22 @@ const nav = [
             {
                 name: 'Alerts',
                 to: '/notifications/alerts',
+                disabled:true
             },
             {
                 name: 'Badges',
                 to: '/notifications/badges',
+                disabled:true
             },
             {
                 name: 'Modal',
                 to: '/notifications/modals',
+                disabled:true
             },
             {
                 name: 'Toasts',
                 to: '/notifications/toasts',
+                disabled:true
             },
         ],
     },
@@ -415,11 +471,12 @@ function Tables() {
                                                     </TableCell>
                                                     <TableCell>
                                                         <MDButton
+                                                            disabled={subItem.disabled}
                                                             variant="outlined"
                                                             color="info"
                                                             size="small"
                                                             component={NavLink}
-                                                            to={`/emitent/${subItem.to}/${id}`}
+                                                            to={`${subItem.to}/`}
                                                         >
                                                             Выбрать
                                                         </MDButton>
