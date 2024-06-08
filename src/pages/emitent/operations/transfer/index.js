@@ -29,14 +29,14 @@ import { fetchCreateTransaction, fetchOperationTypes } from '../../../../redux/a
 const formConfig = [
     { key: "holder_from_id", label: "Кто отдает ", type: "list", option: 'holders', size: 6 },
     { key: "holder_to_id", label: "Кто принимает", type: "list", option: 'holders', size: 6 },
-    { key: "stock", label: "Эмиссия для передачи", type: "list", option: 'stocks', size: 12 },
+    { key: "emission_id", label: "Эмиссия для передачи", type: "list", option: 'stocks', size: 12 },
     { key: "is_exchange", label: "Вид сделки", type: "list", option: 'typesOrder', size: 4 },
-    { key: "emission_id", label: "Эмиссия", type: "text", size: 4 },
+    { key: "emission", label: "Эмиссия", type: "text", size: 4 },
     { key: "postal_address", label: "Вид акций", type: "text", size: 4 },
     { key: "operation_id", label: "Операция", type: "list", option: 'typeOperations', size: 4 },
     { key: "quantity", label: "Количество", type: "number", size: 4 },
-    { key: "amount", label: "Сумма сделки", type: "text", size: 4 },
-    { key: "is_family", label: "Признак родственника", type: "text", size: 4 },
+    { key: "amount", label: "Сумма сделки", type: "number", size: 4 },
+    { key: "is_family", label: "Признак родственника", type: "list",option:'typesFamily', size: 4 },
     { key: "id_number", label: "Документ", type: "text", size: 4 },
     { key: "contract_date", label: "Дата операции", type: "date", size: 4 },
 
@@ -50,8 +50,13 @@ const stocks = [
 ];
 
 const typesOrder = [
-    { id: 1, name: 'Биржевая', value:false },
+    { id: 1, name: 'Биржевая', value:true },
     { id: 2, name: 'Не биржевая',value:false }
+]
+
+const typesFamily = [
+    { id: 1, name: 'Да', value:true },
+    { id: 2, name: 'Нет',value:false }
 ]
 
 const EditEmitent = () => {
@@ -66,16 +71,14 @@ const EditEmitent = () => {
         holders: items,
         stocks: stocks,
         typesOrder: typesOrder,
-        typeOperations: operationTypes
+        typeOperations: operationTypes,
+        typesFamily: typesFamily
     };
 
     
 
     const [formData, setFormData] = useState(
-        formConfig.reduce((acc, { key }) => {
-            acc[key] = '';
-            return acc;
-        }, {})
+     {}
     );
 
     useEffect(() => {
@@ -88,10 +91,12 @@ const EditEmitent = () => {
 
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value,type } = e.target;
+
+        const newValue = type === 'number' ? Number(value) : value;
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: newValue,
         }));
         console.log(formData)
     };
@@ -154,7 +159,7 @@ const EditEmitent = () => {
                                             >
 
                                                 {(optionsMap[option] || []).map(opt => (
-                                                    <MenuItem key={opt.id} value={opt.id}>{opt.name} / {opt.type}</MenuItem>
+                                                    <MenuItem key={opt.id} value={key == 'is_exchange' || key == 'is_family' ? opt.value : opt.id}>{opt.name}</MenuItem>
                                                 ))}
                                             </Select>
                                         </FormControl>

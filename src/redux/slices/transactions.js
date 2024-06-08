@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchCreateTransaction, fetchOperationTypes } from '../actions/transactions'
+import {fetchTransactions, fetchTransactionById, fetchCreateTransaction, fetchOperationTypes } from '../actions/transactions'
 
 
 const initialState = {
+  transactions: {
+    items: [],
+    status: "loading"
+  },
   transaction: {
     data: {},
     status: "loading"
@@ -16,6 +20,28 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchTransactions.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchTransactions.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.transactions.items = action.payload;
+      })
+      .addCase(fetchTransactions.rejected, (state) => {
+        state.status = "error";
+      });
+      builder
+      .addCase(fetchTransactionById.pending, (state) => {
+        state.transaction.status = "loading";
+      })
+      .addCase(fetchTransactionById.fulfilled, (state, action) => {
+        state.transaction.status = "loaded";
+        state.transaction.data = action.payload;
+      })
+      .addCase(fetchTransactionById.rejected, (state) => {
+        state.transaction.status = "error";
+      });
       builder
       .addCase(fetchCreateTransaction.pending, (state) => {
         state.status = "loading";

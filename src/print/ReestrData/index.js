@@ -16,19 +16,83 @@ const company = {
         "phone_number": "720001 пр. Манаса 40, каб 324, тел 90-06-43, 31-17-65, 90-06-42"
     }
 
+    const styles = {
+        container: {
+          fontFamily: 'Arial, sans-serif',
+          margin: '10px',
+          marginLeft:'50px',
+          padding: '10px',
+          border: '2px solid #000',
+          maxWidth: '90%',
+        //   margin: 'auto',
+        },
+        header: {
+          textAlign: 'center',
+          margin: '5px',
+        },
+        section: {
+          marginBottom: '20px',
+        },
+        sectionTitle: {
+          fontWeight: 'bold',
+          marginBottom: '5px',
+        },
+        infoTable: {
+          width: '100%',
+          borderCollapse: 'collapse',
+        },
+        tableCell: {
+          border: '1px solid #000',
+          padding: '2px',
+          textAlign: 'left',
+          fontSize: '11px',
+        },
+        tableHeader: {
+          border: '1px solid #000',
+          padding: '2px',
+          backgroundColor: '#f2f2f2',
+          textAlign: 'center',
+          fontSize: '11px',
+        },
+        nowrap: {
+          whiteSpace: 'nowrap',
+        },
+        dottedLine: {
+          borderBottom: '1px border #000',
+        },
+        textRight: {
+          textAlign: 'right',
+        },
+      };
 
 function ReestrData() {
     const data = useSelector(state => state.auth.data);
     console.log(data, 'print')
     return (
-        <div style={{  padding: 15}}>
-            <h5>Держатель реестра:</h5>
-            <b>{company.name}</b><br></br>
-            <span>Орган государственной регистрации: &nbsp;<b>{company.gov_name}</b></span><br></br>
-            <span>Регистрационный номеар: &nbsp;<b>{company.gov_number}</b></span><br></br>
-            <span>Лицензия: &nbsp;<b>{company.license}</b></span><br></br>
-            <span>Юридический адрес: &nbsp;<b>{company.phone_number}</b></span><br></br>
+        <div style={styles.section}>
+           <h6 style={styles.sectionTitle}>ДЕРЖАТЕЛЬ РЕЕСТРА АКЦИОНЕРОВ:{data.name}lol</h6>
+           <table style={styles.infoTable}>
+      <tbody>
+        <tr>
+          <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Орган государственной регистрации:</strong></td>
+          <td style={{ ...styles.tableCell, ...styles.dottedLine }}>{data.gov_name}</td>
+        </tr>
+        <tr>
+          <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Регистрационный номер:</strong></td>
+          <td style={{ ...styles.tableCell, ...styles.dottedLine }}>{data.gov_number}</td>
+        </tr>
+        <tr>
+          <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Лицензия:</strong></td>
+          <td style={{ ...styles.tableCell, ...styles.dottedLine }}>№143 от 20.12.2013 г., Гос. служба регулир. и надзора за фин. рынком КР</td>
+        </tr>
+        <tr>
+          <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Юридический адрес:</strong></td>
+          <td style={{ ...styles.tableCell, ...styles.dottedLine }}>720001 пр. Манаса 40, каб 324, тел 90-06-43, 31-17-65, 90-06-42</td>
+        </tr>
+      </tbody>
+    </table>
         </div>
+        
     );
 };
 

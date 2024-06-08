@@ -55,8 +55,11 @@ import EditHolders from "layouts/holders/edit-holders"
 import EmitentHolders from "pages/emitent/holders"
 import EmitentHolderDetails from "pages/emitent/holderDetails"
 
+//operation
 import EmitentTransfer from "pages/emitent/operations/transfer"
-
+//log
+import StockTransaction from "pages/emitent/log/stockTransaction"
+import StockTransactionDetail from "pages/emitent/log/stockTransaction/detail"
 //holders
 import HolderDetails from 'pages/holders/details'
 
@@ -123,6 +126,7 @@ const routes = [
   },
 
   //pages
+  
   {
     name: "emitent",
     key: "emitent",
@@ -141,7 +145,7 @@ const routes = [
   },
   {
     key: "emitent-holders",
-    route: "/emitent/holders/:id", 
+    route: "/emitent/:id/holders/", 
     component: <EmitentHolders />,
   },
   {
@@ -156,6 +160,19 @@ const routes = [
     route: "/emitent/:eid/operation/transfer", 
     component: <EmitentTransfer />,
   },
+
+  //log
+  {
+    key: "emitent-transfer",
+    route: "/emitent/:eid/log/stockTransaction", 
+    component: <StockTransaction />,
+  },
+  {
+    key: "emitent-transfer",
+    route: "/emitent/:eid/log/stockTransaction/:tid", 
+    component: <StockTransactionDetail />,
+  },
+
 
   //holders
   {

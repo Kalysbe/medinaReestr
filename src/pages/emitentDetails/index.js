@@ -65,8 +65,7 @@ const nav = [
         items: [
             {
                 name: 'Журнал операций с акциями',
-                to: '/buttons/buttons',
-                 disabled:true
+                to: 'log/stockTransaction'
             },
             {
                 name: 'Журнал выдачи выписок',
