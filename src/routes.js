@@ -130,7 +130,7 @@ const routes = [
   {
     name: "emitent",
     key: "emitent",
-    route: "/emitent/personalData/:id",
+    route: "/emitent/:id/personalData/",
     component: <PersonalData />,
   },
   {

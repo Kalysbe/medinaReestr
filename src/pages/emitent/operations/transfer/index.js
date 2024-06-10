@@ -60,6 +60,7 @@ const typesFamily = [
 ]
 
 const EditEmitent = () => {
+    const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { items, status } = useSelector(state => state.holders.holders);
@@ -105,7 +106,7 @@ const EditEmitent = () => {
         console.log(formData)
         setLoading(true);
         try {
-            await dispatch(fetchCreateTransaction(formData));
+            await dispatch(fetchCreateTransaction({emitent_id:id, ...formData}));
             Swal.fire({
                 title: 'Успешно!',
                 text: 'Данные успешно отправлены',

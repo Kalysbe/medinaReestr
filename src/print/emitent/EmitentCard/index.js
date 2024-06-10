@@ -1,37 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCardEmitent } from '../../../redux/actions/prints';
 import ReestrData from '../../ReestrData'
 import { Box, Table, TableHead, TableBody, TableRow, TableCell, CircularProgress } from '@mui/material';
 import MDTypography from "components/MDTypography";
 
 const EmitentCard = React.forwardRef((props, ref) => {
-    const { id } = props;
-    const dispatch = useDispatch();
-    const { data, status, error } = useSelector(state => state.prints.prints);
+    const { data } = props;
     const EmitentData = data.emitent
-
-    useEffect(() => {
-        dispatch(fetchCardEmitent(id));
-    }, [dispatch, id]);
-
-    if (status === 'loading') {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                <CircularProgress />
-            </Box>
-        );
-    }
-
-    if (status === 'failed') {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                <MDTypography variant="h6" color="error">
-                    Error: {error}
-                </MDTypography>
-            </Box>
-        );
-    }
 
     const styles = {
         container: {
@@ -190,20 +165,6 @@ const EmitentCard = React.forwardRef((props, ref) => {
                                     <td style={styles.tableCell}>{item.new_count}</td>
                                 </tr>
                             ))}
-                     
-     
-            {/* <tr>
-              <td style={styles.tableCell}>1</td>
-              <td style={styles.tableCell}>06.06.1996</td>
-              <td style={styles.tableCell}>KG0101041711</td>
-              <td style={styles.tableCell}>простые именные</td>
-              <td style={styles.tableCell}>200,0000000</td>
-              <td style={styles.tableCell}>5978</td>
-              <td style={styles.tableCell}>22.00</td>
-              <td style={styles.tableCell}>90.090000</td>
-              <td style={styles.tableCell}>131532</td>
-              <td style={styles.tableCell}>131532</td>
-            </tr> */}
             <tr>
               <td style={{ ...styles.tableCell, ...styles.textRight }} rowSpan="2"><strong>ИТОГО:</strong></td>
               <td style={{ ...styles.tableCell, ...styles.nowrap }} colSpan="7"><strong>простые именные</strong></td>

@@ -10,10 +10,11 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { fetchTransactionById } from '../../../../../redux/actions/transactions';
+import { fetchTransactionPrintById } from '../../../../../redux/actions/prints';
 
 import CircularProgress from '@mui/material/CircularProgress';
 
-import EmitentCard from 'print/emitent/EmitentCard';
+import Transfer from 'print/emitent/Transfer';
 import { useReactToPrint } from 'react-to-print';
 
 
@@ -21,13 +22,14 @@ function Basic() {
     const { tid } = useParams();
     const dispatch = useDispatch();
     const { data, status } = useSelector(state => state.transactions.transaction);
+    const { printData, printStatus } = useSelector(state => state.prints.prints);
 
-    console.log(data)
 
     const printRef = useRef();
 
     useEffect(() => {
         dispatch(fetchTransactionById(tid));
+        dispatch(fetchTransactionPrintById(tid))
     }, [dispatch, tid]);
 
     const handlePrint = useReactToPrint({
@@ -57,24 +59,7 @@ function Basic() {
                     </MDBox>
                     <MDBox px={3} mt={2}>
                         <MDTypography align='center' variant="h3" mr={2}>  </MDTypography>
-                        {/* <Table>
-                            <TableBody>
-                                {formData.map((item, key) => (
-                                    <TableRow key={key}>
-                                        <TableCell width={'30%'}>
-                                            <MDTypography variant="h6" color="dark">
-                                                {item.name}
-                                            </MDTypography>
-                                        </TableCell>
-                                        <TableCell fullWidth>
-                                            <MDTypography variant="h6" color="dark">
-                                                {emitentData[item.key]}
-                                            </MDTypography>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table> */}
+                       
                         {status === "loading" && tid ? (
                             <MDBox py='30px' sx={{ display: 'flex', justifyContent: 'center' }}>
                                 <CircularProgress color='info' size='80px' /> {status}
@@ -218,9 +203,11 @@ function Basic() {
                     </MDBox>
                 </MDBox>
             </Card>
+            {printStatus === "loaded" && tid && (
             <div style={{ display: 'none' }}>
-                {/* <EmitentCard ref={printRef} id={id} /> */}
+                <Transfer ref={printRef} data={printData} status={printStatus} />
             </div>
+            )}
         </DashboardLayout>
     );
 }

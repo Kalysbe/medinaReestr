@@ -66,11 +66,11 @@ const company = {
       };
 
 function ReestrData() {
-    const data = useSelector(state => state.auth.data);
+    const data = useSelector(state => state.auth.data.user.company);
     console.log(data, 'print')
     return (
         <div style={styles.section}>
-           <h6 style={styles.sectionTitle}>ДЕРЖАТЕЛЬ РЕЕСТРА АКЦИОНЕРОВ:{data.name}lol</h6>
+           <h6 style={styles.sectionTitle}>ДЕРЖАТЕЛЬ РЕЕСТРА АКЦИОНЕРОВ:{data.name}</h6>
            <table style={styles.infoTable}>
       <tbody>
         <tr>

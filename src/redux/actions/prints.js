@@ -11,4 +11,11 @@ export const fetchExtractReestr = createAsyncThunk("prints/fetchExtractReestr", 
   return data;
 })
 
+export const fetchTransactionPrintById = createAsyncThunk("prints/fetchTransactionPrintById", async (tid) => {
+  const { data } = await axios.get(`/prints/transaction/${tid}`);
+  return data;
+})
+
+
+
 

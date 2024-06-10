@@ -10,6 +10,7 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { fetchEmitentById } from '../../../redux/actions/emitents';
+import { fetchCardEmitent } from '../../../redux/actions/prints';
 
 import EmitentCard from 'print/emitent/EmitentCard';
 import { useReactToPrint } from 'react-to-print';
@@ -38,13 +39,17 @@ function Basic() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const emitent = useSelector(state => state.emitents.emitent);
+    const { printData, printStatus } = useSelector(state => state.prints.prints);
     const isEmitentLoading = emitent.status === 'loading';
     const emitentData = emitent.data;
 
+
+    console.log(emitentData)
     const printRef = useRef();
 
     useEffect(() => {
         dispatch(fetchEmitentById(id));
+        dispatch(fetchCardEmitent(id))
     }, [dispatch, id]);
 
     const handlePrint = useReactToPrint({
@@ -115,9 +120,11 @@ function Basic() {
                     </MDBox>
                 </MDBox>
             </Card>
+            {printStatus === "loaded" && id && (
             <div style={{ display: 'none' }}>
-                <EmitentCard ref={printRef} id={id} />
+                <EmitentCard ref={printRef} data={printData} />
             </div>
+            )}
         </DashboardLayout>
     );
 }

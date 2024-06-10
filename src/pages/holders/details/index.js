@@ -40,15 +40,15 @@ function Basic() {
     const isEmitentLoading = emitent.status === 'loading';
     const emitentData = emitent.data;
 
-    const printRef = useRef();
+    // const printRef = useRef();
 
     useEffect(() => {
         dispatch(fetchHolderById(id));
     }, [dispatch, id]);
 
-    const handlePrint = useReactToPrint({
-        content: () => printRef.current,
-    });
+    // const handlePrint = useReactToPrint({
+    //     content: () => printRef.current,
+    // });
 
     return (
         <DashboardLayout>
@@ -103,20 +103,18 @@ function Basic() {
                         >
                             Редактировать
                         </MDButton>
-                        <MDButton
+                        {/* <MDButton
                             variant="outlined"
                             color="warning"
                             size="small"
                             onClick={handlePrint}
                         >
                             Печать
-                        </MDButton>
+                        </MDButton> */}
                     </MDBox>
                 </MDBox>
             </Card>
-            <div style={{ display: 'none' }}>
-                <EmitentCard ref={printRef} id={id} />
-            </div>
+         
         </DashboardLayout>
     );
 }
