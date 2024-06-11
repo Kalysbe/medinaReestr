@@ -6,25 +6,13 @@ const TransactionDetails = React.forwardRef((props, ref) => {
     const { data,status } = props;
     console.log(data,'data')
     const {
-        id,
-        is_exchange,
-        operation_id,
-        emitent_id,
-        emission_id,
-        holder_from_id,
-        holder_to_id,
-        security_id,
-        is_family,
         quantity,
         amount,
         contract_date,
-        createdAt,
         operation,
-        emitent,
         emission,
         holder_from,
-        holder_to,
-        security
+        holder_to
     } = data;
 
     return (
@@ -37,7 +25,6 @@ const TransactionDetails = React.forwardRef((props, ref) => {
 
 
                 <h4 style={{textAlign:'center'}}>Лицо передающее ценные бумаги</h4>
-                {holder_from}
                 {holder_from && (
             <div>
                         {/* <MDTypography variant="subtitle2">
@@ -107,7 +94,7 @@ const TransactionDetails = React.forwardRef((props, ref) => {
                         </MDTypography>
                         <MDTypography variant="subtitle2">
                             Отношение к акциям:  
-                            {/* <strong> {holder_to}</strong> */}
+        
                         </MDTypography>
                         <MDTypography variant="subtitle2">
                             Телефон, факс:  
@@ -124,11 +111,11 @@ const TransactionDetails = React.forwardRef((props, ref) => {
             
                         <MDTypography variant="subtitle2">
                             Эмитент
-                            {/* <strong> {holder_from.name}</strong> */}
+                           
                         </MDTypography>
                         <MDTypography variant="subtitle2">
                            Вид ценных бумаг
-                            {/* <strong> {holder_from.id}</strong> */}
+                       
                         </MDTypography>
                         <MDTypography variant="subtitle2">
                             Эмиссия
@@ -152,7 +139,7 @@ const TransactionDetails = React.forwardRef((props, ref) => {
                         </MDTypography>
                         <MDTypography variant="subtitle2">
                            Основание перехода прав собственности
-                            {/* <strong> {holder_from.phone_number}</strong> */}
+                      
                         </MDTypography>
                     
             </div>
