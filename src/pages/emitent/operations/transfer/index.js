@@ -24,24 +24,22 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import { selectIsAuth } from '../../../../redux/slices/auth';
 import { fetchHolders } from '../../../../redux/actions/holders';
+import { fetchEmissionsByHolderId ,fetchEmissionsByEmitentId } from '../../../../redux/actions/emissions';
 import { fetchCreateTransaction, fetchOperationTypes } from '../../../../redux/actions/transactions'
 
-const formConfig = [
-    { key: "holder_from_id", label: "Кто отдает ", type: "list", option: 'holders', size: 6 },
-    { key: "holder_to_id", label: "Кто принимает", type: "list", option: 'holders', size: 6 },
-    { key: "emission_id", label: "Эмиссия для передачи", type: "list", option: 'stocks', size: 12 },
-    { key: "is_exchange", label: "Вид сделки", type: "list", option: 'typesOrder', size: 4 },
-    { key: "emission", label: "Эмиссия", type: "text", size: 4 },
-    { key: "postal_address", label: "Вид акций", type: "text", size: 4 },
-    { key: "operation_id", label: "Операция", type: "list", option: 'typeOperations', size: 4 },
-    { key: "quantity", label: "Количество", type: "number", size: 4 },
-    { key: "amount", label: "Сумма сделки", type: "number", size: 4 },
-    { key: "is_family", label: "Признак родственника", type: "list",option:'typesFamily', size: 4 },
-    { key: "id_number", label: "Документ", type: "text", size: 4 },
-    { key: "contract_date", label: "Дата операции", type: "date", size: 4 },
-
-
-
+let formConfig = [
+    { key: "operation_id", label: "Операция", type: "list", option: 'typeOperations', size: 12, disabled: false },
+    { key: "holder_from_id", label: "Кто отдает ", type: "list", option: 'holders', size: 6, disabled: false },
+    { key: "holder_to_id", label: "Кто принимает", type: "list", option: 'holders', size: 6, disabled: false },
+    { key: "emission_id", label: "Эмиссия для передачи", type: "list", option: 'stocks', size: 12, disabled: true },
+    { key: "is_exchange", label: "Вид сделки", type: "list", option: 'typesOrder', size: 4, disabled: false },
+    { key: "emission", label: "Эмиссия", type: "text", size: 4, disabled: true },
+    { key: "postal_address", label: "Вид акций", type: "text", size: 4, disabled: true },
+    { key: "quantity", label: "Количество", type: "number", size: 4, disabled: false },
+    { key: "amount", label: "Сумма сделки", type: "number", size: 4, disabled: false },
+    { key: "is_family", label: "Признак родственника", type: "list", option: 'typesFamily', size: 4, disabled: false },
+    { key: "id_number", label: "Документ", type: "text", size: 4, disabled: false },
+    { key: "contract_date", label: "Дата операции", type: "date", size: 4, disabled: false },
 ];
 
 const stocks = [
@@ -50,13 +48,13 @@ const stocks = [
 ];
 
 const typesOrder = [
-    { id: 1, name: 'Биржевая', value:true },
-    { id: 2, name: 'Не биржевая',value:false }
+    { id: 1, name: 'Биржевая', value: true },
+    { id: 2, name: 'Не биржевая', value: false }
 ]
 
 const typesFamily = [
-    { id: 1, name: 'Да', value:true },
-    { id: 2, name: 'Нет',value:false }
+    { id: 1, name: 'Да', value: true },
+    { id: 2, name: 'Нет', value: false }
 ]
 
 const EditEmitent = () => {
@@ -65,54 +63,138 @@ const EditEmitent = () => {
     const navigate = useNavigate();
     const { items, status } = useSelector(state => state.holders.holders);
     const { operationTypes } = useSelector(state => state.transactions)
+    const { emissions } = useSelector(state => state.emissions)
+    const [config, setConfig] = useState(formConfig);
+    const [loading, setLoading] = useState(false);
+  
+
 
 
 
     const optionsMap = {
         holders: items,
-        stocks: stocks,
+        stocks: emissions.items,
         typesOrder: typesOrder,
         typeOperations: operationTypes,
         typesFamily: typesFamily
     };
 
-    
 
-    const [formData, setFormData] = useState(
-     {}
-    );
+
+    const [formData, setFormData] = useState({
+        "operation_id": "",
+        "holder_from_id": 0,
+        "holder_to_id": 0,
+        "emission_id": "",
+        "is_exchange": false,
+        "emission": "test",
+        "postal_address": "",
+        "quantity": 0,
+        "amount": 0,
+        "is_family": "",
+        "id_number": "",
+        "contract_date": "2024-06-12"
+    });
 
     useEffect(() => {
         dispatch(fetchHolders())
         dispatch(fetchOperationTypes())
     }, [])
 
-    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        setConfig(prevConfig => 
+            prevConfig.map(item => 
+                item.key === 'holder_from_id' ? { ...item, disabled: formData.operation_id === 1 } : item
+            )
+        );
+    
+        if (formData.operation_id === 1) {
+            setFormData(prevData => ({
+                ...prevData,
+                holder_from_id: '' 
+            }));
+        }
+    }, [formData.operation_id]);
+    
+    useEffect(() => {
+        if(formData.operation_id === 1) {
+            dispatch(fetchEmissionsByEmitentId(eid))
+        } else if(formData.holder_from_id) {
+            dispatch(fetchEmissionsByHolderId(formData.holder_from_id))
+        }
+        setConfig(prevConfig => 
+            prevConfig.map(item => 
+                item.key === 'emission_id' ? { ...item, disabled: false } : item
+            )
+        );
+
+    }, [formData.operation_id,formData.holder_from_id])
+
+    useEffect(() => {
+        const newEmissionValue = emissions.items.find(item => item.id === formData.emission_id)
+
+        if(newEmissionValue && newEmissionValue.reg_number) {
+            setFormData(prevData => ({
+                ...prevData,
+                emission: newEmissionValue.reg_number
+            }));
+        }
+      
+    }, [formData.emission_id]);
+    
+
+
 
 
 
     const handleChange = (e) => {
-        const { name, value,type } = e.target;
-
+        
+        
+        const { name, value, type } = e.target;
         const newValue = type === 'number' ? Number(value) : value;
         setFormData((prevData) => ({
             ...prevData,
             [name]: newValue,
         }));
-        console.log(formData)
+
     };
 
     const handleSubmit = async () => {
-        console.log(eid)
         setLoading(true);
         const emitent_id = Number(eid);
+
+   
+
+        // emitent/1/log/stockTransaction/23
         try {
-            await dispatch(fetchCreateTransaction({emitent_id, ...formData}));
+            let updatedFormData = formData;
+
+            if (formData.operation_id === 1) {
+                const { holder_from_id, ...newFormData } = formData;
+                updatedFormData = newFormData;
+                await setFormData(newFormData);
+            }
+        
+            const response = await dispatch(fetchCreateTransaction({ emitent_id, ...updatedFormData }));
+        
+            if (response.error) {
+                throw new Error(response.error);
+            }
+            
+            console.log(response,'respons')
+
+            const newId = response.payload.id; 
+
             Swal.fire({
                 title: 'Успешно!',
                 text: 'Данные успешно отправлены',
                 icon: 'success',
                 confirmButtonText: 'Ок',
+            }).then((result) => {
+                // Перенаправляем пользователя после нажатия кнопки "Ок"
+                if (result.isConfirmed) {
+                    navigate(`/emitent/${eid}/log/stockTransaction/${newId}`) 
+                }
             });
         } catch (error) {
             console.error('Ошибка при отправке данных:', error);
@@ -125,6 +207,7 @@ const EditEmitent = () => {
         } finally {
             setLoading(false);
         }
+        
     };
     return (
         <DashboardLayout>
@@ -148,12 +231,13 @@ const EditEmitent = () => {
                 <form>
                     <MDBox>
                         <Grid container spacing={2}>
-                            {formConfig.map(({ key, label, type, option, size }) => (
+                            {config.map(({ key, label, type, option, size, disabled }) => (
                                 <Grid sm={12} md={size} item key={key}>
                                     {type === 'list' ? (
                                         <FormControl fullWidth>
                                             <InputLabel id="demo-simple-select-label">{label}</InputLabel>
                                             <Select
+                                                disabled={disabled}
                                                 name={key}
                                                 value={formData[key]}
                                                 label={label}
@@ -161,13 +245,16 @@ const EditEmitent = () => {
                                             >
 
                                                 {(optionsMap[option] || []).map(opt => (
-                                                    <MenuItem key={opt.id} value={key == 'is_exchange' || key == 'is_family' ? opt.value : opt.id}>{opt.name}</MenuItem>
+                                                    <MenuItem key={opt.id} value={key == 'is_exchange' || key == 'is_family' ? opt.value : opt.id}>
+                                                        {key == 'emission_id' ? opt.reg_number : opt.name}
+                                                    </MenuItem>
                                                 ))}
                                             </Select>
                                         </FormControl>
 
                                     ) : type === 'date' ? (
                                         <MDInput
+                                            disabled={disabled}
                                             fullWidth
                                             label={label}
                                             type={type}
@@ -180,6 +267,7 @@ const EditEmitent = () => {
                                     ) : (
 
                                         <MDInput
+                                            disabled={disabled}
                                             fullWidth
                                             label={label}
                                             type={type}

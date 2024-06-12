@@ -48,6 +48,8 @@ function Tables() {
   const dispatch = useDispatch();
   const { items ,status } = useSelector(state => state.transactions.transactions);
 
+  console.log(items)
+
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
 
@@ -105,8 +107,9 @@ function Tables() {
                   <Table>
                     <TableHead style={{ display: 'table-header-group' }}>
                       <TableRow>
-                        <TableCell>Тип</TableCell>
-                        <TableCell>Сумма сделки</TableCell>
+                        <TableCell>Тип сделки</TableCell>
+                        <TableCell>Передает</TableCell>
+                        <TableCell>Принимает</TableCell>
                         <TableCell>Дата сделки</TableCell>
 
                       </TableRow>
@@ -121,7 +124,12 @@ function Tables() {
                           </TableCell>
                           <TableCell>
                             <MDTypography variant="h6" color="dark">
-                              {item.amount}
+                              {item.holder_from ? item.holder_from.name : item.emitent ? item.emitent.full_name : 'Отсутствует'}
+                            </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.holder_to.name}
                             </MDTypography>
                           </TableCell>
                           <TableCell>
