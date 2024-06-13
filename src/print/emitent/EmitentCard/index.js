@@ -6,6 +6,7 @@ import MDTypography from "components/MDTypography";
 
 const EmitentCard = React.forwardRef((props, ref) => {
     const { data } = props;
+    console.log(data,'fd')
     const EmitentData = data.emitent
 
     const styles = {
@@ -58,10 +59,12 @@ const EmitentCard = React.forwardRef((props, ref) => {
       };
     
 
-    console.log(EmitentData)
+   
 
     return (
         <Box ref={ref} p={2}>
+          {data && (
+
 
 <div style={styles.container}>
       <h5 style={styles.header}>КАРТОЧКА ЭМИТЕНТА</h5>
@@ -225,6 +228,7 @@ const EmitentCard = React.forwardRef((props, ref) => {
         </table>
       </div>
     </div>
+              )}
         </Box >
     );
 });

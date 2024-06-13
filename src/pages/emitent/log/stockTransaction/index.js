@@ -48,7 +48,7 @@ function Tables() {
   const dispatch = useDispatch();
   const { items ,status } = useSelector(state => state.transactions.transactions);
 
-  console.log(items)
+   console.log(items)
 
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
@@ -111,7 +111,6 @@ function Tables() {
                         <TableCell>Передает</TableCell>
                         <TableCell>Принимает</TableCell>
                         <TableCell>Дата сделки</TableCell>
-
                       </TableRow>
                     </TableHead>
                     <TableBody>

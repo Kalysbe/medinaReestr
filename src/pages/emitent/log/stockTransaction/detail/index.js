@@ -22,7 +22,7 @@ function Basic() {
     const { tid } = useParams();
     const dispatch = useDispatch();
     const { data, status } = useSelector(state => state.transactions.transaction);
-    const { printData, printStatus } = useSelector(state => state.prints.prints);
+    const { transactionPrint } = useSelector(state => state.prints.prints);
 
 
     const printRef = useRef();
@@ -203,9 +203,9 @@ function Basic() {
                     </MDBox>
                 </MDBox>
             </Card>
-            {printStatus === "loaded" && tid && (
+            {transactionPrint && tid && (
             <div style={{ display: 'none' }}>
-                <Transfer ref={printRef} data={printData} status={printStatus} />
+                <Transfer ref={printRef} data={transactionPrint} />
             </div>
             )}
         </DashboardLayout>

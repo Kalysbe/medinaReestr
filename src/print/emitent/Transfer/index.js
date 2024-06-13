@@ -3,7 +3,7 @@ import MDTypography from "components/MDTypography";
 import ReestrData from 'print/ReestrData';
 
 const TransactionDetails = React.forwardRef((props, ref) => {
-    const { data,status } = props;
+    const { data } = props;
     console.log(data,'data')
     const {
         quantity,
@@ -17,7 +17,7 @@ const TransactionDetails = React.forwardRef((props, ref) => {
 
     return (
         <>
-        {status === "loaded" &&  (
+      
         <div ref={ref} className="transaction-details" style={{border:'2px solid black',padding:'5px',margin:'10px'}}>
               
          
@@ -149,7 +149,7 @@ const TransactionDetails = React.forwardRef((props, ref) => {
       
         </div>
     
-    )}
+
     </>
     );
 });

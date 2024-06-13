@@ -39,12 +39,11 @@ function Basic() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const emitent = useSelector(state => state.emitents.emitent);
-    const { printData, printStatus } = useSelector(state => state.prints.prints);
+    const {cardEmitent} = useSelector(state => state.prints.prints);
+    const printData = cardEmitent?.data;
     const isEmitentLoading = emitent.status === 'loading';
     const emitentData = emitent.data;
 
-
-    console.log(emitentData)
     const printRef = useRef();
 
     useEffect(() => {
@@ -88,7 +87,7 @@ function Basic() {
                                                 {item.name}
                                             </MDTypography>
                                         </TableCell>
-                                        <TableCell fullWidth>
+                                        <TableCell fullwidth>
                                             <MDTypography variant="h6" color="dark">
                                                 {emitentData[item.key]}
                                             </MDTypography>
@@ -120,8 +119,10 @@ function Basic() {
                     </MDBox>
                 </MDBox>
             </Card>
-            {printStatus === "loaded" && id && (
+            {printData && id && (
+       
             <div style={{ display: 'none' }}>
+                fdfsd
                 <EmitentCard ref={printRef} data={printData} />
             </div>
             )}

@@ -10,7 +10,7 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { fetchHolderById } from '../../../redux/actions/holders';
-
+import { fetchExtractReestr } from '../../../redux/actions/prints';
 import ExtractReestr from 'print/emitent/ExtractReestr';
 import { useReactToPrint } from 'react-to-print';
 
@@ -28,17 +28,17 @@ const formData = [
 
 function Basic() {
     const { eid, hid } = useParams();
-    console.log(eid,hid)
     const dispatch = useDispatch();
     const holder = useSelector(state => state.holders.holder);
-    const isHolderLoading = holder.status === 'loading';
+    const {transactionPrint} = useSelector(state => state.prints.prints);
+    
     const holderData = holder.data;
-    console.log(holderData)
     const printRef = useRef();
 
     useEffect(() => {
         dispatch(fetchHolderById(eid));
-    }, [dispatch, eid]);
+        dispatch(fetchExtractReestr({ eid: eid, hid: hid }));
+    }, [dispatch, eid,hid]);
 
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
@@ -98,9 +98,11 @@ function Basic() {
                     </MDBox>
                 </MDBox>
             </Card>
+            {transactionPrint && hid && (
             <div style={{ display: 'none' }}>
-                <ExtractReestr ref={printRef} eid={eid} hid={hid}/>
+                <ExtractReestr ref={printRef} printData={transactionPrint}/>
             </div>
+            )}
         </DashboardLayout>
     );
 }
