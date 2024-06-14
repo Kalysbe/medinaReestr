@@ -6,10 +6,10 @@ import MDTypography from "components/MDTypography";
 
 const EmitentCard = React.forwardRef((props, ref) => {
     const { data } = props;
-    console.log(data,'fd')
+    
     const EmitentData = data.emitent
 
-    const styles = {
+    const styles = {  
         container: {
           fontFamily: 'Arial, sans-serif',
           margin: '10px',
@@ -63,7 +63,7 @@ const EmitentCard = React.forwardRef((props, ref) => {
 
     return (
         <Box ref={ref} p={2}>
-          {data && (
+          {EmitentData && (
 
 
 <div style={styles.container}>
@@ -74,15 +74,15 @@ const EmitentCard = React.forwardRef((props, ref) => {
           <tbody>
             <tr>
               <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Полное наименование:</strong></td>
-              <td style={{ ...styles.tableCell, ...styles.dottedLine }}><strong>{EmitentData.full_name}</strong></td>
+              <td style={{ ...styles.tableCell, ...styles.dottedLine }}><strong>{EmitentData?.full_name}</strong></td>
             </tr>
             <tr>
               <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Краткое наименование:</strong></td>
-              <td style={{ ...styles.tableCell, ...styles.dottedLine }}><strong>{EmitentData.short_name}</strong></td>
+              <td style={{ ...styles.tableCell, ...styles.dottedLine }}><strong>{EmitentData?.short_name}</strong></td>
             </tr>
             <tr>
               <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Орган государственной регистрации:</strong></td>
-              <td style={{ ...styles.tableCell, ...styles.dottedLine }}><strong>{EmitentData.gov_name}</strong></td>
+              <td style={{ ...styles.tableCell, ...styles.dottedLine }}><strong>{EmitentData?.gov_name}</strong></td>
             </tr>
             <tr>
               <td style={{ ...styles.tableCell, ...styles.nowrap }}><strong>Номер и дата государственной регистрации:</strong></td>

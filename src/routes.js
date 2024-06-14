@@ -54,7 +54,8 @@ import EditEmitent from "pages/emitent/EditEmitent"
 import EditHolders from "layouts/holders/edit-holders"
 import EmitentHolders from "pages/emitent/holders"
 import EmitentHolderDetails from "pages/emitent/holderDetails"
-
+import EmitentStocks from "pages/emitent/emitent/stocks"
+import EmitentAddStock from "pages/emitent/emitent/stocks/editStock"
 //operation
 import EmitentTransfer from "pages/emitent/operations/transfer"
 //log
@@ -133,6 +134,19 @@ const routes = [
     route: "/emitent/:id/personalData/",
     component: <PersonalData />,
   },
+  {
+    name: "emitent-stocks",
+    key: "emitent-stocks",
+    route: "/emitent/:id/stocks/",
+    component: <EmitentStocks />,
+  },
+  {
+    name: "add-stock",
+    key: "add-stock",
+    route: "/emitent/:id/add-stock/",
+    component: <EmitentAddStock />,
+  },
+  
   {
     key: "add-emitent",
     route: "/add-emitent", 

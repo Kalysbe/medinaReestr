@@ -30,8 +30,9 @@ function Basic() {
     const { eid, hid } = useParams();
     const dispatch = useDispatch();
     const holder = useSelector(state => state.holders.holder);
-    const {transactionPrint} = useSelector(state => state.prints.prints);
-    
+    const {extractReestr} = useSelector(state => state.prints.prints);
+    const printData = extractReestr?.data;
+    console.log(printData,'pri')
     const holderData = holder.data;
     const printRef = useRef();
 
@@ -98,9 +99,9 @@ function Basic() {
                     </MDBox>
                 </MDBox>
             </Card>
-            {transactionPrint && hid && (
+            {printData && hid && (
             <div style={{ display: 'none' }}>
-                <ExtractReestr ref={printRef} printData={transactionPrint}/>
+                <ExtractReestr ref={printRef} data={printData}/>
             </div>
             )}
         </DashboardLayout>

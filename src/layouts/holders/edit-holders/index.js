@@ -26,15 +26,15 @@ import styles from './EditEmitent.css';
 
 
 const formData = {
-  name: 'Наименование эмитента',
-  actual_address: 'Номер гос. регистрации',
-  legal_address: 'Орган осуществ-ший регистр',
-  email: 'Дата регистрации',
-  phone_number: 'Орган регистрации выпуска ценных бумаг',
-  passport_type: 'Адрес',
-  passport_number: 'Номер телефона',
-  passport_agency: 'Электронный адрес',
-  inn: 'Наименование банка эмитента'
+  name: 'Наименование держателя',
+  actual_address: 'Фактический адрес',
+  legal_address: 'Юридический адрес',
+  email: 'Электронная почта',
+  phone_number: 'Номер телефона',
+  passport_type: 'Тип паспорта',
+  passport_number: 'Номер паспорта',
+  passport_agency: 'Орган выдачи',
+  inn: 'ИНН'
 }
 
 
@@ -50,15 +50,15 @@ function AddPost(props) {
   const inputFileRef = React.useRef(null);
 
   const [data, setData] = useState({
-    name: null,
-    actual_address: null,
-    legal_address: null,
-    email: null,
-    phone_number: null,
-    passport_type: null,
-    passport_number: null,
-    passport_agency: null,
-    inn: null
+    name: '',
+    actual_address: '',
+    legal_address: '',
+    email: '',
+    phone_number: '',
+    passport_type: '',
+    passport_number: '',
+    passport_agency: '',
+    inn: ''
   });
 
   const isEditing = Boolean(id);

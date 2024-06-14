@@ -16,11 +16,12 @@ Coded by www.creative-tim.com
 // @mui material components
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, NavLink, useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import { CardContent, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
-import { useLocation, NavLink } from "react-router-dom";
 
 
 // Material Dashboard 2 React components
@@ -35,28 +36,26 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import { fetchEmitents , fetchDeleteEmitent } from '../../redux/actions/emitents';
+import { fetchEmitentEmissions  } from '../../../../redux/actions/emitents';
 import Swal from 'sweetalert2';
-// Data
-// import authorsTableData from "layouts/tables/data/authorsTableData";
-// import projectsTableData from "layouts/tables/data/projectsTableData";
-
 
 
 function Tables() {
+    const { id } = useParams();
   const dispatch = useDispatch();
-  const { emitents } = useSelector(state => state.emitents);
+  const { items ,status } = useSelector(state => state.emitents.emitentEmissions);
+
+   console.log(items)
+
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
 
 
   useEffect(() => {
-    dispatch(fetchEmitents());
+    dispatch(fetchEmitentEmissions(id));
   }, []);
 
-  useEffect(() => {
-    dispatch(fetchEmitents({ page, searchTerm }));
-  }, [dispatch, page, searchTerm]);
+  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -66,28 +65,6 @@ function Tables() {
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
-
-  const onDelete = (id) => {
-    Swal.fire({
-      title: 'Вы правда хотите удалить?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Да, удалить!',
-      cancelButtonText: 'Отмена',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(fetchDeleteEmitent(id)).then(() => {
-          Swal.fire('Успешно!', 'Запись удалена', 'success');
-        })
-        .catch((error) => {
-          MySwal.fire('Ошибка!', 'Не удалось удалить запись: ' + error.message, 'error');
-        });
-      }
-    });
-  };
-
-
-  // const { columns, rows } = authorsTableData();
 
 
   return (
@@ -109,79 +86,61 @@ function Tables() {
                   coloredShadow="info"
                 >
                   <MDTypography variant="h5" color="white">
-                    Эмитенты
+                 Эмиссии эмитента
                   </MDTypography>
                 </MDBox>
                 <MDBox color="text" px={2}>
-                  <MDButton variant="gradient" color="dark" component={NavLink}
-                    to="/add-emitent">
+                  <MDButton variant="gradient" color="dark" 
+                //   component={NavLink}
+                //     to="add-stock"
+                    > 
                     <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                    Новый Эмитент
+                    Новая эмиссия
                   </MDButton>
                 </MDBox>
               </MDBox>
               <MDBox mx={2}>
-                <MDInput label="Поиск по эмитентам"
+                <MDInput label="Поиск по эмиссиям"
                   value={searchTerm}
                   onChange={handleSearchChange} fullWidth />
               </MDBox>
-              <MDBox pt={3} mx={2} >
-                {/* <TableContainer>авы */}
+              <MDBox pt={3} mx={2}>
                   <Table>
                     <TableHead style={{ display: 'table-header-group' }}>
                       <TableRow>
-                        <TableCell>Наименование</TableCell>
-                        <TableCell>Действие</TableCell>
-
+                        <TableCell>Регистрационный номер</TableCell>
+                        <TableCell>Количество</TableCell>
+                        <TableCell>Стоимость</TableCell>
+                    
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {emitents.items.map((item, index) => (
+                      {items.map((item, index) => (
                         <TableRow key={index}>
                           <TableCell>
                             <MDTypography variant="h6" color="dark">
-                              {item.full_name}
+                            {item.reg_number}
                             </MDTypography>
                           </TableCell>
                           <TableCell>
-
-                            <MDButton
-                              variant="outlined"
-                              color="info"
-                              size="small"
-                              component={NavLink}
-                              to={`/emitent/${item.id}`}
-                            >
-                              Выбрать
-                            </MDButton>
-
-
-                            {/* <MDButton variant="outlined" color="error" size="small" style={{ marginLeft: '8px' }} onClick={() => onDelete(item.id)}>
-                              Удалить
-                            </MDButton> */}
-
+                            <MDTypography variant="h6" color="dark">
+                            {item.count}
+                            </MDTypography>
                           </TableCell>
-
+                          <TableCell>
+                            <MDTypography variant="h6" color="dark">
+                              {item.new_nominal}
+                            </MDTypography>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
-                {/* </TableContainer> */}
-
-                {/* <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                /> */}
               </MDBox>
             </Card>
           </Grid>
-
         </Grid>
       </MDBox>
-      {/* <Footer /> */}
     </DashboardLayout>
   );
 }

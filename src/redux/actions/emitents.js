@@ -25,3 +25,18 @@ export const fetchUpdateEmitent = createAsyncThunk("emitents/fetchUpdateEmitent"
 export const fetchDeleteEmitent = createAsyncThunk("emitents/fetchDeleteEmitent", async (id) => {
   await axios.delete(`/emitents/${id}`);
 })
+
+export const fetchEmitentEmissions = createAsyncThunk("emitents/fetchEmitentEmissions", async (id) => {
+  const { data } = await axios.get(`/emitents/${id}/emissions`);
+  return data;
+})
+
+export const fetchAddEmitentEmissions = createAsyncThunk("emitents/fetchAddEmitentEmissions", async (data) => {
+  const response = await axios.post(`/emissions`,data);
+  return response.data;
+})
+
+export const fetchUpdateEmitentEmissions = createAsyncThunk("emitents/fetchUpdateEmitentEmissions", async (id) => {
+  const { data } = await axios.get(`/emitents/${id}/emissions`);
+  return data;
+})

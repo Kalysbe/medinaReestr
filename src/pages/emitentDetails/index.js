@@ -55,7 +55,7 @@ const nav = [
             },
             {
                 name: 'Ценные бумаги',
-                to: '/issuer/securities',
+                to: 'stocks',
             }
         ],
     },

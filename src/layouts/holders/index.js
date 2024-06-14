@@ -147,7 +147,9 @@ function Tables() {
                         <TableRow key={index}>
                           <TableCell>
                             <MDTypography variant="h6" color="dark">
-                            <Link to={`/holder/${item.id}`}> {item.name}</Link>
+                            {/* <Link to={`/holder/${item.id}`}>  */}
+                            {item.name}
+                            {/* </Link> */}
             
                             </MDTypography>
                           </TableCell>
@@ -197,7 +199,7 @@ function Tables() {
                               color="info"
                               size="small"
                               component={NavLink}
-                        
+                              to={`/holder/${item.id}/edit`}
                             >
                               Редактировать
                             </MDButton> 

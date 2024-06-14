@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchEmitents, fetchEmitentById, fetchAddEmitent, fetchUpdateEmitent, fetchDeleteEmitent } from '../actions/emitents'
+import { fetchEmitents, fetchEmitentById, fetchAddEmitent, fetchUpdateEmitent, fetchDeleteEmitent, fetchEmitentEmissions ,fetchAddEmitentEmissions} from '../actions/emitents'
 
 
 const initialState = {
@@ -9,6 +9,10 @@ const initialState = {
   },
   emitent: {
     data: {},
+    status: "loading"
+  },
+  emitentEmissions: {
+    items: [],
     status: "loading"
   }
 }
@@ -69,7 +73,33 @@ const emitentsSlice = createSlice({
       .addCase(fetchUpdateEmitent.rejected, (state) => {
         state.status = "error";
       });
+      builder
+      .addCase(fetchEmitentEmissions.pending, (state) => {
+        state.emitentEmissions.items = [];
+        state.emitentEmissions.status = "loading";
+      })
+      .addCase(fetchEmitentEmissions.fulfilled, (state, action) => {
+        state.emitentEmissions.items = action.payload;
+        state.emitentEmissions.status = "loaded";
+      })
+      .addCase(fetchEmitentEmissions.rejected, (state) => {
+        state.emitentEmissions.items = [];
+        state.emitentEmissions.status = "error";
+      });
 
+      builder
+      .addCase(fetchAddEmitentEmissions.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddEmitentEmissions.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchAddEmitentEmissions.rejected, (state) => {
+        state.status = "error";
+      });
+
+    
     // Действия для удаления эмитента
     builder.addCase(fetchDeleteEmitent.pending, (state, action) => {
       const postIdToRemove = action.meta.arg;
