@@ -48,7 +48,7 @@ import SignUp from "layouts/authentication/sign-up";
 //pages
 
 //emitents
-import EmitentDetails from "pages/emitentDetails"
+import EmitentDetails from "pages/emitent/emitentNavigation"
 import PersonalData from "pages/emitent/emitentDetails"
 import EditEmitent from "pages/emitent/EditEmitent"
 import EditHolders from "layouts/holders/edit-holders"
@@ -57,7 +57,8 @@ import EmitentHolderDetails from "pages/emitent/holderDetails"
 import EmitentStocks from "pages/emitent/emitent/stocks"
 import EmitentAddStock from "pages/emitent/emitent/stocks/editStock"
 //operation
-import EmitentTransfer from "pages/emitent/operations/transfer"
+import EmitentOperationTransfer from "pages/emitent/operations/transfer"
+import EmitentOperationSingle from "pages/emitent/operations/single"
 //log
 import StockTransaction from "pages/emitent/log/stockTransaction"
 import StockTransactionDetail from "pages/emitent/log/stockTransaction/detail"
@@ -170,9 +171,14 @@ const routes = [
 
   //operations
   {
-    key: "emitent-transfer",
+    key: "emitent-operation-transfer",
     route: "/emitent/:eid/operation/transfer", 
-    component: <EmitentTransfer />,
+    component: <EmitentOperationTransfer />
+  },
+  {
+    key: "emitent-operation-single",
+    route: "/emitent/:eid/operation/single", 
+    component: <EmitentOperationSingle />,
   },
 
   //log

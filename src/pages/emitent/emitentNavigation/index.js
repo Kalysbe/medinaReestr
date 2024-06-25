@@ -29,16 +29,11 @@ import { useLocation, NavLink, useParams } from "react-router-dom";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DataTable from "examples/Tables/DataTable";
 
 
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { CardContent, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
+
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TextField, Button } from '@mui/material';
 // Data
-import authorsTableData from "pages/emitentDetails/data/authorsTableData";
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -117,8 +112,8 @@ const nav = [
             },
             {
                 name: 'Одноместная операция',
-                to: '/icons/brands',
-                 disabled:true
+                to: 'operation/single',
+                 disabled:false
             },
             {
 
@@ -408,7 +403,7 @@ function a11yProps(index) {
 
 function Tables() {
     const { id } = useParams();
-    const { columns, rows } = authorsTableData();
+
 
     const [value, setValue] = React.useState(0);
 

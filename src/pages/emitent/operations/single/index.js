@@ -29,7 +29,6 @@ import { fetchCreateTransaction, fetchOperationTypes } from '../../../../redux/a
 
 let formConfig = [
     { key: "operation_id", label: "Операция", type: "list", option: 'typeOperations', size: 12, disabled: false },
-    { key: "holder_from_id", label: "Кто отдает ", type: "list", option: 'holders', size: 6, disabled: false },
     { key: "holder_to_id", label: "Кто принимает", type: "list", option: 'holders', size: 6, disabled: false },
     { key: "emission_id", label: "Эмиссия для передачи", type: "list", option: 'stocks', size: 12, disabled: true },
     { key: "is_exchange", label: "Вид сделки", type: "list", option: 'typesOrder', size: 4, disabled: false },
@@ -42,10 +41,6 @@ let formConfig = [
     { key: "contract_date", label: "Дата операции", type: "date", size: 4, disabled: false },
 ];
 
-const stocks = [
-    { id: 1, name: 'KG0101139234', type: 'простые именные', count: 12 },
-    { id: 2, name: 'KG0101016010', type: 'простые именные', count: 20 },
-];
 
 const typesOrder = [
     { id: 1, name: 'Биржевая', value: true },
@@ -83,7 +78,6 @@ const EditEmitent = () => {
 
     const [formData, setFormData] = useState({
         "operation_id": "",
-        "holder_from_id": 0,
         "holder_to_id": 0,
         "emission_id": "",
         "is_exchange": false,
@@ -101,34 +95,15 @@ const EditEmitent = () => {
         dispatch(fetchOperationTypes())
     }, [])
 
-    useEffect(() => {
-        setConfig(prevConfig => 
-            prevConfig.map(item => 
-                item.key === 'holder_from_id' ? { ...item, disabled: formData.operation_id === 1 } : item
-            )
-        );
-    
-        if (formData.operation_id === 1) {
-            setFormData(prevData => ({
-                ...prevData,
-                holder_from_id: '' 
-            }));
-        }
-    }, [formData.operation_id]);
+   
     
     useEffect(() => {
         if(formData.operation_id === 1) {
             dispatch(fetchEmissionsByEmitentId(eid))
-        } else if(formData.holder_from_id) {
-            dispatch(fetchEmissionsByHolderId(formData.holder_from_id))
         }
-        setConfig(prevConfig => 
-            prevConfig.map(item => 
-                item.key === 'emission_id' ? { ...item, disabled: false } : item
-            )
-        );
+       
 
-    }, [formData.operation_id,formData.holder_from_id])
+    }, [formData.operation_id])
 
     useEffect(() => {
         const newEmissionValue = emissions.items.find(item => item.id === formData.emission_id)
@@ -148,41 +123,22 @@ const EditEmitent = () => {
 
 
     const handleChange = (e) => {
-        
-        
         const { name, value, type } = e.target;
         const newValue = type === 'number' ? Number(value) : value;
         setFormData((prevData) => ({
             ...prevData,
             [name]: newValue,
         }));
-
     };
 
     const handleSubmit = async () => {
         setLoading(true);
         const emitent_id = Number(eid);
-
-   
-
-        // emitent/1/log/stockTransaction/23
         try {
-            let updatedFormData = formData;
-
-            if (formData.operation_id === 1) {
-                const { holder_from_id, ...newFormData } = formData;
-                updatedFormData = newFormData;
-                await setFormData(newFormData);
-            }
-        
-            const response = await dispatch(fetchCreateTransaction({ emitent_id, ...updatedFormData }));
-        
+            const response = await dispatch(fetchCreateTransaction({ emitent_id, ...formData }));
             if (response.error) {
                 throw new Error(response.error);
             }
-            
-            console.log(response,'respons')
-
             const newId = response.payload.id; 
 
             Swal.fire({
@@ -223,7 +179,7 @@ const EditEmitent = () => {
                         coloredShadow="info"
                     >
                         <MDTypography variant="h5" color="white">
-                            Операция передача акций
+                           Одноместная операция
                         </MDTypography>
                     </MDBox>
                 </MDBox>
