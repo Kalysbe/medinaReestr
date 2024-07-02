@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Navigate, useParams, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Card, Container } from '@mui/material';
@@ -22,24 +22,13 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
-import { selectIsAuth } from '../../../../redux/slices/auth';
 import { fetchHolders } from '../../../../redux/actions/holders';
-import { fetchEmissionsByHolderId ,fetchEmissionsByEmitentId } from '../../../../redux/actions/emissions';
+import { fetchEmissionsByEmitentId } from '../../../../redux/actions/emissions';
+import { fetchAddHolder } from '../../../../redux/actions/holders'
 import { fetchCreateTransaction, fetchOperationTypes } from '../../../../redux/actions/transactions'
+import { holderFormConfig, formConfig } from './const_forms'
 
-let formConfig = [
-    { key: "operation_id", label: "Операция", type: "list", option: 'typeOperations', size: 12, disabled: false },
-    { key: "holder_to_id", label: "Кто принимает", type: "list", option: 'holders', size: 6, disabled: false },
-    { key: "emission_id", label: "Эмиссия для передачи", type: "list", option: 'stocks', size: 12, disabled: true },
-    { key: "is_exchange", label: "Вид сделки", type: "list", option: 'typesOrder', size: 4, disabled: false },
-    { key: "emission", label: "Эмиссия", type: "text", size: 4, disabled: true },
-    { key: "postal_address", label: "Вид акций", type: "text", size: 4, disabled: true },
-    { key: "quantity", label: "Количество", type: "number", size: 4, disabled: false },
-    { key: "amount", label: "Сумма сделки", type: "number", size: 4, disabled: false },
-    { key: "is_family", label: "Признак родственника", type: "list", option: 'typesFamily', size: 4, disabled: false },
-    { key: "id_number", label: "Документ", type: "text", size: 4, disabled: false },
-    { key: "contract_date", label: "Дата операции", type: "date", size: 4, disabled: false },
-];
+import HolderForm from 'forms/holder/index'
 
 
 const typesOrder = [
@@ -51,20 +40,30 @@ const typesFamily = [
     { id: 1, name: 'Да', value: true },
     { id: 2, name: 'Нет', value: false }
 ]
+const initHolderData = {
+    name: "",
+    actual_address: "",
+    phone_number: "",
+    passport_type: "",
+    passport_number: "",
+    passport_agency: "",
+    inn: ""
+}
 
 const EditEmitent = () => {
     const { eid } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const formRef = useRef();
+
     const { items, status } = useSelector(state => state.holders.holders);
     const { operationTypes } = useSelector(state => state.transactions)
     const { emissions } = useSelector(state => state.emissions)
     const [config, setConfig] = useState(formConfig);
+    const [isHolder, setIsHolder] = useState('true')
+    const [selectedHolderId, setSelectedHolderId] = useState(null); 
+    const [newHolderId, setNewHolderId] = useState(null)
     const [loading, setLoading] = useState(false);
-  
-
-
-
 
     const optionsMap = {
         holders: items,
@@ -74,20 +73,19 @@ const EditEmitent = () => {
         typesFamily: typesFamily
     };
 
-
+    const [holderData, setHolderData] = useState(initHolderData)
 
     const [formData, setFormData] = useState({
-        "operation_id": "",
-        "holder_to_id": 0,
-        "emission_id": "",
-        "is_exchange": false,
-        "emission": "test",
-        "postal_address": "",
-        "quantity": 0,
-        "amount": 0,
-        "is_family": "",
-        "id_number": "",
-        "contract_date": "2024-06-12"
+        operation_id: 1,
+        emission_id: 0,
+        is_exchange: false,
+        emission: "",
+        postal_address: "",
+        quantity: 0,
+        amount: 0,
+        is_family: false,
+        id_number: "",
+        contract_date: "2024-06-12"
     });
 
     useEffect(() => {
@@ -95,32 +93,26 @@ const EditEmitent = () => {
         dispatch(fetchOperationTypes())
     }, [])
 
-   
-    
-    useEffect(() => {
-        if(formData.operation_id === 1) {
-            dispatch(fetchEmissionsByEmitentId(eid))
-        }
-       
 
-    }, [formData.operation_id])
+
+    useEffect(() => {
+        dispatch(fetchEmissionsByEmitentId(eid))
+    }, [])
 
     useEffect(() => {
         const newEmissionValue = emissions.items.find(item => item.id === formData.emission_id)
-
-        if(newEmissionValue && newEmissionValue.reg_number) {
+        if (newEmissionValue && newEmissionValue.reg_number) {
             setFormData(prevData => ({
                 ...prevData,
                 emission: newEmissionValue.reg_number
             }));
         }
-      
+
     }, [formData.emission_id]);
-    
 
-
-
-
+    const handleChangeHolder = (e) => {
+        setIsHolder(e.target.value);
+    }
 
     const handleChange = (e) => {
         const { name, value, type } = e.target;
@@ -131,15 +123,33 @@ const EditEmitent = () => {
         }));
     };
 
-    const handleSubmit = async () => {
+
+    const handleFormSubmit = async () => {
         setLoading(true);
-        const emitent_id = Number(eid);
         try {
-            const response = await dispatch(fetchCreateTransaction({ emitent_id, ...formData }));
+            if (formRef.current) {
+                const holderId = await formRef.current.submitForm();
+                setNewHolderId(holderId);
+            }
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+            Swal.fire({
+                title: 'Ошибка!',
+                text: 'Произошла ошибка при отправке данных на сервер',
+                icon: 'error',
+                confirmButtonText: 'Ок',
+            });
+            setLoading(false);
+        }
+    };
+
+    const handleCreateTransaction = async (holderId) => {
+        try {
+            const response = await dispatch(fetchCreateTransaction({ emitent_id:eid, holder_to_id: holderId, ...formData }));
             if (response.error) {
                 throw new Error(response.error);
             }
-            const newId = response.payload.id; 
+            const newId = response.payload.id;
 
             Swal.fire({
                 title: 'Успешно!',
@@ -148,7 +158,7 @@ const EditEmitent = () => {
                 confirmButtonText: 'Ок',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    navigate(`/emitent/${eid}/log/stockTransaction/${newId}`) 
+                    navigate(`/emitent/${eid}/log/stockTransaction/${newId}`);
                 }
             });
         } catch (error) {
@@ -162,8 +172,22 @@ const EditEmitent = () => {
         } finally {
             setLoading(false);
         }
-        
     };
+
+    const handleSubmit = () => {
+        setLoading(true);
+        if (selectedHolderId) {
+            handleCreateTransaction(selectedHolderId);
+        } else {
+            handleFormSubmit();
+        }
+    };
+
+    useEffect(() => {
+        if (newHolderId) {
+            handleCreateTransaction(newHolderId);
+        }
+    }, [newHolderId]);
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -179,82 +203,123 @@ const EditEmitent = () => {
                         coloredShadow="info"
                     >
                         <MDTypography variant="h5" color="white">
-                           Одноместная операция
+                            Одноместная операция
                         </MDTypography>
                     </MDBox>
                 </MDBox>
-                <form>
-                    <MDBox>
-                        <Grid container spacing={2}>
-                            {config.map(({ key, label, type, option, size, disabled }) => (
-                                <Grid sm={12} md={size} item key={key}>
-                                    {type === 'list' ? (
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-                                            <Select
-                                                disabled={disabled}
-                                                name={key}
-                                                value={formData[key]}
-                                                label={label}
-                                                onChange={handleChange}
-                                            >
+                <MDBox>
+                    <MDTypography variant="h5" color="dark">
+                        Карточка акционера
+                    </MDTypography>
 
-                                                {(optionsMap[option] || []).map(opt => (
-                                                    <MenuItem key={opt.id} value={key == 'is_exchange' || key == 'is_family' ? opt.value : opt.id}>
-                                                        {key == 'emission_id' ? opt.reg_number : opt.name}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-
-                                    ) : type === 'date' ? (
-                                        <MDInput
-                                            disabled={disabled}
-                                            fullWidth
-                                            label={label}
-                                            type={type}
-                                            name={key}
-                                            defaultValue='12.12.2024'
-                                            value={formData[key]}
-                                            onChange={handleChange}
-                                        />
-
-                                    ) : (
-
-                                        <MDInput
-                                            disabled={disabled}
-                                            fullWidth
-                                            label={label}
-                                            type={type}
-                                            name={key}
-                                            value={formData[key]}
-                                            onChange={handleChange}
-                                        />
-
-                                    )}
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </MDBox>
-                    <MDBox mt={4} display="flex" justifyContent="end">
-                        <MDButton
-                            color="error"
-                            component={NavLink}
-                            to='/emitent/personalData/'
-                            style={{ marginRight: '12px' }}
+                    <FormControl>
+                        <FormLabel id="demo-row-radio-buttons-group-label">Акционер</FormLabel>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={isHolder}
+                            onChange={handleChangeHolder}
                         >
-                            Назад
-                        </MDButton>
-                        <MDButton
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            variant="gradient"
-                            color="info"
-                        >
-                            Сохранить
-                        </MDButton>
-                    </MDBox>
-                </form>
+                            <FormControlLabel value={true} control={<Radio />} label="Существующий" />
+                            <FormControlLabel value={false} control={<Radio />} label="Новый акционер" />
+                        </RadioGroup>
+                    </FormControl>
+
+                    {isHolder == 'true' ? (
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Кто принимает</InputLabel>
+                            <Select
+                                name="holder_to_id"
+                                value={formData['holder_to_id']}
+                                label='Кто принимает'
+                                onChange={(e) => setSelectedHolderId(e.target.value)}
+                            >
+                                  <MenuItem value={0}>
+                                       Выберите держателя
+                                    </MenuItem>
+                                {(optionsMap['holders'] || []).map(opt => (
+                                    <MenuItem key={opt.id} value={opt.id}>
+                                        {opt.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <HolderForm ref={formRef} />
+                    )}
+
+                    <MDTypography variant="h5" color="dark" sx={{ my: 2 }}>
+                        Детали операции
+                    </MDTypography>
+                    <Grid container spacing={2}>
+                        {config.map(({ key, label, type, option, size, disabled }) => (
+                            <Grid sm={12} md={size} item key={key}>
+                                {type === 'list' ? (
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+                                        <Select
+                                            disabled={disabled}
+                                            name={key}
+                                            value={formData[key]}
+                                            label={label}
+                                            onChange={handleChange}
+                                        >
+
+                                            {(optionsMap[option] || []).map(opt => (
+                                                <MenuItem key={opt.id} value={key == 'is_exchange' || key == 'is_family' ? opt.value : opt.id}>
+                                                    {key == 'emission_id' ? opt.reg_number : opt.name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+
+                                ) : type === 'date' ? (
+                                    <MDInput
+                                        disabled={disabled}
+                                        fullWidth
+                                        label={label}
+                                        type={type}
+                                        name={key}
+                                        value={formData[key]}
+                                        onChange={handleChange}
+                                    />
+
+                                ) : (
+
+                                    <MDInput
+                                        disabled={disabled}
+                                        fullWidth
+                                        label={label}
+                                        type={type}
+                                        name={key}
+                                        value={formData[key]}
+                                        onChange={handleChange}
+                                    />
+
+                                )}
+                            </Grid>
+                        ))}
+                    </Grid>
+                </MDBox>
+                <MDBox mt={4} display="flex" justifyContent="end">
+                    <MDButton
+                        color="error"
+                        component={NavLink}
+                        to='/emitent/personalData/'
+                        style={{ marginRight: '12px' }}
+                    >
+                        Назад
+                    </MDButton>
+                    <MDButton
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        variant="gradient"
+                        color="info"
+                    >
+                        Сохранить
+                    </MDButton>
+                </MDBox>
             </Card>
         </DashboardLayout>
     );

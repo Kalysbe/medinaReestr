@@ -380,7 +380,7 @@ function CustomTabPanel(props) {
         >
             {value === index && (
                 <MDBox sx={{ p: 2 }}>
-                    <MDTypography>{children}</MDTypography>
+                   {children}
                 </MDBox>
             )}
         </div>
@@ -442,12 +442,13 @@ function Tables() {
                             <MDBox px={2} py={2} sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                     {nav.map((item, index) => (
-                                        <Tab label={item.name} {...a11yProps(index)} />
+                                        <Tab key={index} label={item.name} {...a11yProps(index)} />
                                     ))}
                                 </Tabs>
                             </MDBox>
                             {nav.map((item, index) => (
-                                <CustomTabPanel value={value} index={index}>
+                         
+                                <CustomTabPanel key={index} value={value} index={index}>  
                                     <Table style={{ width: 'inherit' }}>
                                         <TableHead style={{ display: 'table-header-group' }}>
                                             <TableRow>
@@ -479,7 +480,7 @@ function Tables() {
                                             ))}
                                         </TableBody>
                                     </Table>
-                                </CustomTabPanel>
+                                    </CustomTabPanel>
                             ))}
                         </Card>
                     </Grid>

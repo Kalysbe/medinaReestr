@@ -17,6 +17,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from 'react-redux'
 import { BrowserRouter } from "react-router-dom";
+import SaveCurrentLocation from './saveRoute';
 import App from "App";
 
 // Material Dashboard 2 React Context Provider
@@ -29,6 +30,7 @@ root.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
       <Provider store={store}>
+      <SaveCurrentLocation />
         <App />
       </Provider>
     </MaterialUIControllerProvider>

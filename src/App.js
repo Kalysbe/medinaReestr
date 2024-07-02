@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import {React, useState, useEffect, useMemo } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation , useNavigate} from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -60,6 +60,7 @@ import { layouts } from "chart.js";
 
 
 export default function App() {
+  const navigate = useNavigate();
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -155,8 +156,25 @@ export default function App() {
   const isAuth = useSelector(selectIsAuth);
 
   useEffect(() => {
-    dispath(fetchAuthMe())
+    if (localStorage.getItem('token')) {
+      dispath(fetchAuthMe())
+    }
+
   }, [])
+
+  useEffect(() => {
+  if (layout === "dashboard" && !window.localStorage.getItem("token") || !isAuth) {
+    navigate('/authentication/sign-in');
+  }
+}, [layout])
+
+  useEffect(() => {
+      const lastVisitedPath = localStorage.getItem('lastVisitedPath');
+      if (lastVisitedPath) {
+        navigate(lastVisitedPath);
+      } 
+  
+  }, [isAuth, navigate]);
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
