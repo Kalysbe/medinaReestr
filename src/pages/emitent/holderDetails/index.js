@@ -37,7 +37,7 @@ function Basic() {
     const printRef = useRef();
 
     useEffect(() => {
-        dispatch(fetchHolderById(eid));
+        dispatch(fetchHolderById(hid));
         dispatch(fetchExtractReestr({ eid: eid, hid: hid }));
     }, [dispatch, eid,hid]);
 

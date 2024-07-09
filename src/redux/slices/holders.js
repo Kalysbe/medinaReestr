@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchHolders, fetchHolderById, fetchAddHolder } from '../actions/holders'
+import { fetchHolders, fetchHolderById, fetchAddHolder, fetchHoldersByEmitentId } from '../actions/holders'
 
 const initialState = {
   holders: {
@@ -45,7 +45,6 @@ const holdersSlice = createSlice({
         state.holder.data = {};
         state.holder.status = "error";
       });
-
       builder
       .addCase(fetchAddHolder.pending, (state) => {
         state.status = "loading";
@@ -56,6 +55,20 @@ const holdersSlice = createSlice({
       })
       .addCase(fetchAddHolder.rejected, (state) => {
         state.status = "error";
+      });
+
+      builder
+      .addCase(fetchHoldersByEmitentId.pending, (state) => {
+        state.holders.items = [];
+        state.holders.status = "loading";
+      })
+      .addCase(fetchHoldersByEmitentId.fulfilled, (state, action) => {
+        state.holders.items = action.payload;
+        state.holders.status = "loaded";
+      })
+      .addCase(fetchHoldersByEmitentId.rejected, (state) => {
+        state.holders.items = [];
+        state.holders.status = "error";
       });
     // Действия для удаления эмитента
     // builder.addCase(fetchDeleteEmitent.pending, (state, action) => {

@@ -75,6 +75,7 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
 
   // Cache for the rtl
   useMemo(() => {
@@ -162,19 +163,30 @@ export default function App() {
 
   }, [])
 
-  useEffect(() => {
-  if (layout === "dashboard" && !window.localStorage.getItem("token") || !isAuth) {
-    navigate('/authentication/sign-in');
-  }
-}, [layout])
+  console.log(isAuth)
 
   useEffect(() => {
+    const checkAuthStatus = () => {
+      const token = localStorage.getItem("token");
+      if (!token || !isAuth) {
+        console.log(isAuth);
+        navigate('/authentication/sign-in');
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, [isAuth, navigate]);
+
+  useEffect(() => {
+    if (!isLoading) {
       const lastVisitedPath = localStorage.getItem('lastVisitedPath');
       if (lastVisitedPath) {
-        navigate(lastVisitedPath);
-      } 
-  
-  }, [isAuth, navigate]);
+        navigate(isAuth ? lastVisitedPath : '/authentication/sign-in');
+      }
+    }
+  }, [isAuth, isLoading, navigate]);
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>

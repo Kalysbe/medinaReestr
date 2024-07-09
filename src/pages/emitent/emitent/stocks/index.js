@@ -33,6 +33,8 @@ import MDInput from "components/MDInput";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
+import { constTable } from '../../holders/conts_table';
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
@@ -91,8 +93,8 @@ function Tables() {
                 </MDBox>
                 <MDBox color="text" px={2}>
                   <MDButton variant="gradient" color="dark" 
-                //   component={NavLink}
-                //     to="add-stock"
+                  component={NavLink}
+                    to="add"
                     > 
                     <Icon sx={{ fontWeight: "bold" }}>add</Icon>
                     Новая эмиссия
@@ -111,7 +113,7 @@ function Tables() {
                         <TableCell>Регистрационный номер</TableCell>
                         <TableCell>Количество</TableCell>
                         <TableCell>Стоимость</TableCell>
-                    
+                        <TableCell>Действия</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -131,6 +133,17 @@ function Tables() {
                             <MDTypography variant="h6" color="dark">
                               {item.new_nominal}
                             </MDTypography>
+                          </TableCell>
+                          <TableCell>
+                          <MDButton
+                            variant="outlined"
+                            color="info"
+                            size="small"
+                            component={NavLink}
+                            to={`${item.id}/edit`}
+                          >
+                           Редактировать
+                          </MDButton>
                           </TableCell>
                         </TableRow>
                       ))}

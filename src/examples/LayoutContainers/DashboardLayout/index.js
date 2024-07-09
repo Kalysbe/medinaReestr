@@ -39,9 +39,9 @@ function DashboardLayout({ children }) {
 
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
-
+  console.log(isAuth)
   if (!window.localStorage.getItem("token") || !isAuth) {
-    return <Navigate to="/authentication/sign-in" />;
+    navigate("/authentication/sign-in")
   }
 
   return (

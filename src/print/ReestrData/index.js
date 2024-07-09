@@ -67,7 +67,6 @@ const company = {
 
 function ReestrData() {
     const data = useSelector(state => state.auth.data.user.company);
-    console.log(data, 'print')
     return (
         <div style={styles.section}>
            <h6 style={styles.sectionTitle}>ДЕРЖАТЕЛЬ РЕЕСТРА АКЦИОНЕРОВ:{data.name}</h6>

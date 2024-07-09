@@ -55,13 +55,15 @@ import EditHolders from "layouts/holders/edit-holders"
 import EmitentHolders from "pages/emitent/holders"
 import EmitentHolderDetails from "pages/emitent/holderDetails"
 import EmitentStocks from "pages/emitent/emitent/stocks"
-import EmitentAddStock from "pages/emitent/emitent/stocks/editStock"
+import EmitentEditStock from "pages/emitent/emitent/stocks/editStock"
 //operation
 import EmitentOperationTransfer from "pages/emitent/operations/transfer"
 import EmitentOperationSingle from "pages/emitent/operations/single"
 //log
 import StockTransaction from "pages/emitent/log/stockTransaction"
 import StockTransactionDetail from "pages/emitent/log/stockTransaction/detail"
+//print
+import HoldersMeeting from "pages/emitent/print/holdersMeeting"
 //holders
 import HolderDetails from 'pages/holders/details'
 
@@ -103,7 +105,6 @@ const routes = [
     component: <Notifications />,
   },
   {
-    // type: "collapse",
     name: "emitentDetails",
     key: "emitents",
     icon: <Icon fontSize="small">notifications</Icon>,
@@ -128,7 +129,6 @@ const routes = [
   },
 
   //pages
-  
   {
     name: "emitent",
     key: "emitent",
@@ -144,8 +144,14 @@ const routes = [
   {
     name: "add-stock",
     key: "add-stock",
-    route: "/emitent/:id/add-stock/",
-    component: <EmitentAddStock />,
+    route: "/emitent/:id/stocks/add",
+    component: <EmitentEditStock />,
+  },
+  {
+    name: "add-stock",
+    key: "add-stock",
+    route: "/emitent/:id/stocks/:esid/edit",
+    component: <EmitentEditStock />,
   },
   
   {
@@ -191,6 +197,13 @@ const routes = [
     key: "emitent-transfer",
     route: "/emitent/:eid/log/stockTransaction/:tid", 
     component: <StockTransactionDetail />,
+  },
+
+  //print
+  {
+    key: "holders-meeting",
+    route: "/emitent/:eid/print/holdersMeeting", 
+    component: <HoldersMeeting />,
   },
 
 

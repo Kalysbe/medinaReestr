@@ -37,6 +37,6 @@ export const fetchAddEmitentEmissions = createAsyncThunk("emitents/fetchAddEmite
 })
 
 export const fetchUpdateEmitentEmissions = createAsyncThunk("emitents/fetchUpdateEmitentEmissions", async (id) => {
-  const { data } = await axios.get(`/emitents/${id}/emissions`);
+  const { data } = await axios.put(`/emitents/${id}/emissions`);
   return data;
 })

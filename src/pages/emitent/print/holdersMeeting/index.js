@@ -41,9 +41,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import { constTable } from './conts_table';
-
-import { fetchHolders, fetchHoldersByEmitentId } from '../../../redux/actions/holders';
+import { fetchHolders } from '../../../../redux/actions/holders';
 import Swal from 'sweetalert2';
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -56,37 +54,15 @@ function Tables() {
   const { holders } = useSelector(state => state.holders);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState(1)
   const { id } = useParams();
 
   useEffect(() => {
-    switch (filter) {
-      case 1:  // if (x === 'value2')
-        dispatch(fetchHoldersByEmitentId({ eid: id, type: filter }));
-        break
-      case 2:  // if (x === 'value2')
-        dispatch(fetchHoldersByEmitentId({ eid: id, type: filter }));
-        break
-      case 4:  // if (x === 'value1')
-        dispatch(fetchHolders());
-        break
-      default:
-        console.log(12)
-        break
-    }
-
-
-  }, [filter]);
-
-
-
-  // useEffect(() => {
-  //   dispatch(fetchHolders({ page, searchTerm }));
-  // }, [dispatch, page, searchTerm]);
+    dispatch(fetchHolders());
+  }, []);
 
   useEffect(() => {
-    console.log(filter)
-  }, [filter]);
+    dispatch(fetchHolders({ page, searchTerm }));
+  }, [dispatch, page, searchTerm]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -96,10 +72,6 @@ function Tables() {
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
-
-  const handleFilter = (event) => {
-    setFilter(event.target.value)
-  }
 
   const onDelete = (id) => {
     Swal.fire({
@@ -154,21 +126,23 @@ function Tables() {
                 </MDBox>
               </MDBox>
               <MDBox mx={2} sx={{}}>
-                <FormControl sx={{ width: '20%', marginBottom: '10px' }}>
+                <FormControl sx={{ width: '20%',marginBottom:'10px' }}>
                   {/* <InputLabel id="demo-simple-select-label">{label}</InputLabel> */}
                   <Select
                     name="filter"
-                    value={filter}
-                    onChange={handleFilter}
+                    value="0"
+                  // onChange={handleChange}
                   >
+
+
+                    <MenuItem value={0}>
+                        Все держатели
+                    </MenuItem>
                     <MenuItem value={1}>
-                      Все держатели
+                        По фамилии
                     </MenuItem>
                     <MenuItem value={2}>
-                      По фамилии
-                    </MenuItem>
-                    <MenuItem value={4}>
-                      Держатели в архиве
+                      
                     </MenuItem>
 
                   </Select>
@@ -184,19 +158,17 @@ function Tables() {
                 <Table>
                   <TableHead style={{ display: 'table-header-group' }}>
                     <TableRow>
-                      {Object.values(constTable).map((header, index) => (
-                        <TableCell key={index}>{header}</TableCell>
-                      ))}
+                      <TableCell>Наименование</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {holders.items.map((item, index) => (
                       <TableRow key={index}>
-             
-                          {Object.keys(constTable).map((key, index) => (
-                            <TableCell key={index}>{item[key]}</TableCell>
-                          ))}
-                      
+                        <TableCell>
+                          <MDTypography variant="h6" color="dark">
+                            <Link to={`/emitent/${id}/holder/${item.id}`}> {item.name}</Link>
+                          </MDTypography>
+                        </TableCell>
                         <TableCell>
                           <MDButton
                             variant="outlined"

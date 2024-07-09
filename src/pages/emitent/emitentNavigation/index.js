@@ -199,8 +199,8 @@ const nav = [
             },
             {
                 name: '07 Печать реестра на собрание',
-                to: '/icons/brands',
-                 disabled:true
+                to: 'print/holdersMeeting',
+                 disabled:false
             },
             {
                 name: '08 Полный реестр',

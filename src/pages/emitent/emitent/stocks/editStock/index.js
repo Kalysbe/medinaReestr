@@ -12,33 +12,23 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import { fetchAddEmitentEmissions } from '../../../../../redux/actions/emitents';
+import { fetchEmissionById } from '../../../../../redux/actions/emissions';
 
 const formConfig = [
-  { key: "full_name", label: "Наименование эмитента", type: "text" },
-  { key: "short_name", label: "Номер гос. регистрации", type: "text" },
-  { key: "gov_name", label: "Орган осуществ-ший регистр", type: "text" },
-  { key: "gov_number", label: "Орган регистрации выпуска ценных бумаг", type: "text" },
-  { key: "legal_address", label: "Адрес", type: "text" },
-  { key: "postal_address", label: "Почтовый адрес", type: "text" },
-  { key: "phone_number", label: "Номер телефона", type: "text" },
-  { key: "email", label: "Электронный адрес", type: "text" },
-  { key: "bank_name", label: "Наименование банка эмитента", type: "text" },
-  { key: "bank_account", label: "Счет в банке", type: "text" },
-  { key: "id_number", label: "Идентификационный номер", type: "text" },
-  { key: "contract_date", label: "Дата заключения договора", type: "date" },
-  { key: "capital", label: "Размер уставного капитала", type: "text" },
-  { key: "director_registrar", label: 'Ф.И.О директора "Медина"', type: "text" },
-  { key: "accountant", label: "Ф.И.О гл. бухгалтера АО", type: "text" },
-  { key: "director_company", label: "Ф.И.О руководителя АО", type: "text" }
+  { key: "reg_number", label: "Регистрационный номер", type: "text" },
+  { key: "release_date", label: "Дата выпуска", type: "number" },
+  { key: "type_id", label: "Тип эмиссии", type: "number" },
+  { key: "new_nominal", label: "Номинал", type: "number" },
+  { key: "count", label: "Количество", type: "number" },
 ];
 
 const EditEmitent = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, esid } = useParams();
   const navigate = useNavigate();
-  const emitent = useSelector(state => state.emitents.emitent);
-  const isEditing = Boolean(id);
-
+  const { emissionDetail } = useSelector(state => state.emissions);
+  const isEditing = Boolean(esid);
+  console.log(esid, 'esid')
   const [formData, setFormData] = useState(
     formConfig.reduce((acc, { key }) => {
       acc[key] = '';
@@ -46,29 +36,43 @@ const EditEmitent = () => {
     }, {})
   );
 
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(fetchEmissionById(esid));
+    } else {
+      setFormData(
+        formConfig.reduce((acc, { key }) => {
+          acc[key] = '';
+          return acc;
+        }, {})
+      );
+    }
+  }, [dispatch, id, isEditing]);
+
   const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
-    if (isEditing && emitent && emitent.data) {
-      const { id, ...emitentData } = emitent.data;
-      setFormData(emitentData);
+    if (isEditing && emissionDetail && emissionDetail.data) {
+      const { id, ...emissionData } = emissionDetail.data;
+      setFormData(emissionData);
     }
-  }, [emitent]);
+  }, [emissionDetail]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const newValue = type === 'number' ? Number(value) : value;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
   const handleSubmit = async () => {
     setLoading(true);
+    const emitent_id = Number(id);
     try {
-        await dispatch(fetchAddEmitentEmissions(formData));
-
+      await dispatch(fetchAddEmitentEmissions({ emitent_id, ...formData }));
       Swal.fire({
         title: 'Успешно!',
         text: 'Данные успешно отправлены',
