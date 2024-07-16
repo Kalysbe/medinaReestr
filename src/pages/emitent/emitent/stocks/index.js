@@ -47,7 +47,7 @@ function Tables() {
   const dispatch = useDispatch();
   const { items ,status } = useSelector(state => state.emitents.emitentEmissions);
 
-   console.log(items)
+   
 
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
@@ -131,7 +131,7 @@ function Tables() {
                           </TableCell>
                           <TableCell>
                             <MDTypography variant="h6" color="dark">
-                              {item.new_nominal}
+                              {item.nominal}
                             </MDTypography>
                           </TableCell>
                           <TableCell>

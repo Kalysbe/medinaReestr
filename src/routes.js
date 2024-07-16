@@ -144,13 +144,13 @@ const routes = [
   {
     name: "add-stock",
     key: "add-stock",
-    route: "/emitent/:id/stocks/add",
+    route: "/emitent/:eid/stocks/add",
     component: <EmitentEditStock />,
   },
   {
     name: "add-stock",
     key: "add-stock",
-    route: "/emitent/:id/stocks/:esid/edit",
+    route: "/emitent/:eid/stocks/:esid/edit",
     component: <EmitentEditStock />,
   },
   

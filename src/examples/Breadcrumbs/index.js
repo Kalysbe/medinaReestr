@@ -25,6 +25,7 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 
 function Breadcrumbs({ icon, title, route, light }) {
@@ -32,7 +33,7 @@ function Breadcrumbs({ icon, title, route, light }) {
 
   return (
     <MDBox mr={{ xs: 0, xl: 8 }}>
-      <MuiBreadcrumbs
+      {/* <MuiBreadcrumbs
         sx={{
           "& .MuiBreadcrumbs-separator": {
             color: ({ palette: { white, grey } }) => (light ? white.main : grey[600]),
@@ -83,7 +84,10 @@ function Breadcrumbs({ icon, title, route, light }) {
         noWrap
       >
         {title.replace("-", " ")}
-      </MDTypography>
+      </MDTypography> */}
+      <MDButton color="warning">
+      <Icon sx={{mr:1}}>arrow_back</Icon>
+        Назад</MDButton>
     </MDBox>
   );
 }

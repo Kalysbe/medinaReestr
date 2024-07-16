@@ -41,33 +41,40 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import { constTable } from './conts_table';
-
+import { constTable_1, constTable_2 } from './conts_table';
 import { fetchHolders, fetchHoldersByEmitentId } from '../../../redux/actions/holders';
+import { fetchEmitentEmissions } from '../../../redux/actions/emitents';
 import Swal from 'sweetalert2';
-// Data
-// import authorsTableData from "layouts/tables/data/authorsTableData";
-// import projectsTableData from "layouts/tables/data/projectsTableData";
+
 
 
 
 function Tables() {
   const dispatch = useDispatch();
   const { holders } = useSelector(state => state.holders);
+  const emitentEmissions = useSelector(state => state.emitents.emitentEmissions);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState(1)
+  const [tableHeaders, setTableHeaders] = useState({})
   const { id } = useParams();
 
   useEffect(() => {
     switch (filter) {
-      case 1:  // if (x === 'value2')
+      case 1:
         dispatch(fetchHoldersByEmitentId({ eid: id, type: filter }));
+        setTableHeaders(constTable_1)
         break
-      case 2:  // if (x === 'value2')
+      case 2:
         dispatch(fetchHoldersByEmitentId({ eid: id, type: filter }));
+        setTableHeaders(constTable_2)
         break
-      case 4:  // if (x === 'value1')
+      case 3:
+        dispatch(fetchEmitentEmissions(id))
+        dispatch(fetchHoldersByEmitentId({ eid: id, type: filter }));
+        setTableHeaders(constTable_2)
+        break
+      case 4:
         dispatch(fetchHolders());
         break
       default:
@@ -155,7 +162,6 @@ function Tables() {
               </MDBox>
               <MDBox mx={2} sx={{}}>
                 <FormControl sx={{ width: '20%', marginBottom: '10px' }}>
-                  {/* <InputLabel id="demo-simple-select-label">{label}</InputLabel> */}
                   <Select
                     name="filter"
                     value={filter}
@@ -167,24 +173,46 @@ function Tables() {
                     <MenuItem value={2}>
                       По фамилии
                     </MenuItem>
+                    <MenuItem value={3}>
+                      По Эмиссии
+                    </MenuItem>
                     <MenuItem value={4}>
                       Держатели в архиве
                     </MenuItem>
-
                   </Select>
                 </FormControl>
+                {filter === 3 && (
+                  <FormControl sx={{ width: '20%', marginLeft: '10px', marginBottom: '10px' }}>
+                    <Select
+                      name="filter"
+                      value={filter}
+                      onChange={handleFilter}
+                    >
+                      <MenuItem value={1}>
+                        Все держатели
+                      </MenuItem>
+                      {emitentEmissions.items?.map((item, index) => {
+                        <MenuItem key={index} value={item.id}>
+                          По фамилии
+                        </MenuItem>
+                      })}
 
+                    </Select>
+                  </FormControl>
+                )}
+                {/* 
                 <MDInput
                   fullWidth
                   label="Поиск по держателям"
                   value={searchTerm}
-                  onChange={handleSearchChange} />
+                  onChange={handleSearchChange} /> */}
               </MDBox>
               <MDBox pt={3} mx={2}>
                 <Table>
                   <TableHead style={{ display: 'table-header-group' }}>
                     <TableRow>
-                      {Object.values(constTable).map((header, index) => (
+                      <TableCell>№</TableCell>
+                      {Object.values(tableHeaders).map((header, index) => (
                         <TableCell key={index}>{header}</TableCell>
                       ))}
                     </TableRow>
@@ -192,11 +220,11 @@ function Tables() {
                   <TableBody>
                     {holders.items.map((item, index) => (
                       <TableRow key={index}>
-             
-                          {Object.keys(constTable).map((key, index) => (
-                            <TableCell key={index}>{item[key]}</TableCell>
-                          ))}
-                      
+                        <TableCell>{index}</TableCell>
+                        {Object.keys(tableHeaders).map((key, index) => (
+                          <TableCell key={index}>{item[key]}</TableCell>
+                        ))}
+
                         <TableCell>
                           <MDButton
                             variant="outlined"

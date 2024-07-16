@@ -19,7 +19,7 @@ const formData = [
     { key: 'full_name', name: 'Наименование эмитента' },
     { key: 'short_name', name: 'Номер гос. регистрации' },
     { key: 'gov_name', name: 'Орган осуществ-ший регистр' },
-    { key: 'gov_number', name: 'Дата регистрации' },
+    { key: 'contract_date', name: 'Дата регистрации' },
     { key: 'gov_number', name: 'Орган регистрации выпуска ценных бумаг' },
     { key: 'legal_address', name: 'Адрес' },
     { key: 'phone_number', name: 'Номер телефона' },

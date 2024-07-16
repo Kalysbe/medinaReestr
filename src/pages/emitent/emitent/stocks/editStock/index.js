@@ -18,13 +18,13 @@ const formConfig = [
   { key: "reg_number", label: "Регистрационный номер", type: "text" },
   { key: "release_date", label: "Дата выпуска", type: "number" },
   { key: "type_id", label: "Тип эмиссии", type: "number" },
-  { key: "new_nominal", label: "Номинал", type: "number" },
-  { key: "count", label: "Количество", type: "number" },
+  { key: "nominal", label: "Номинал", type: "number" },
+  { key: "start_count", label: "Количество", type: "number" },
 ];
 
 const EditEmitent = () => {
   const dispatch = useDispatch();
-  const { id, esid } = useParams();
+  const { eid, esid } = useParams();
   const navigate = useNavigate();
   const { emissionDetail } = useSelector(state => state.emissions);
   const isEditing = Boolean(esid);
@@ -47,7 +47,7 @@ const EditEmitent = () => {
         }, {})
       );
     }
-  }, [dispatch, id, isEditing]);
+  }, [dispatch, eid, isEditing]);
 
   const [loading, setLoading] = useState(false);
 
@@ -70,26 +70,35 @@ const EditEmitent = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const emitent_id = Number(id);
+    const emitent_id = Number(eid);
     try {
-      await dispatch(fetchAddEmitentEmissions({ emitent_id, ...formData }));
-      Swal.fire({
-        title: 'Успешно!',
-        text: 'Данные успешно отправлены',
-        icon: 'success',
-        confirmButtonText: 'Ок',
-      });
-    } catch (error) {
-      console.error('Ошибка при отправке данных:', error);
-      Swal.fire({
-        title: 'Ошибка!',
-        text: 'Произошла ошибка при отправке данных на сервер',
-        icon: 'error',
-        confirmButtonText: 'Ок',
-      });
-    } finally {
-      setLoading(false);
+     const response = await dispatch(fetchAddEmitentEmissions({ emitent_id, ...formData }));
+
+      
+      if (response.error) {
+        throw new Error(response.error);
     }
+    Swal.fire({
+      title: 'Успешно!',
+      text: 'Данные успешно отправлены',
+      icon: 'success',
+      confirmButtonText: 'Ок',
+  }).then((result) => {
+      if (result.isConfirmed) {
+          navigate(`/emitent/${eid}/stocks/`) 
+      }
+  });
+} catch (error) {
+  console.error('Ошибка при отправке данных:', error);
+  Swal.fire({
+      title: 'Ошибка!',
+      text: 'Произошла ошибка при отправке данных на сервер',
+      icon: 'error',
+      confirmButtonText: 'Ок',
+  });
+} finally {
+  setLoading(false);
+}
   };
   return (
     <DashboardLayout>
@@ -106,7 +115,7 @@ const EditEmitent = () => {
             coloredShadow="info"
           >
             <MDTypography variant="h5" color="white">
-              {isEditing ? 'Редактирование' : 'Добавление'} эмитента
+              {isEditing ? 'Редактирование' : 'Добавление'} эмиссии
             </MDTypography>
           </MDBox>
         </MDBox>
@@ -122,6 +131,7 @@ const EditEmitent = () => {
                     name={key}
                     value={formData[key]}
                     onChange={handleChange}
+          
                   />
                 </Grid>
               ))}
@@ -131,7 +141,7 @@ const EditEmitent = () => {
             <MDButton
               color="error"
               component={NavLink}
-              to={isEditing ? `/emitent/personalData/${id}` : '/emitents'}
+              to={isEditing ? `/emitent/personalData/${eid}` : '/emitents'}
               style={{ marginRight: '12px' }}
             >
               Назад

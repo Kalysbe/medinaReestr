@@ -293,6 +293,7 @@ const EditEmitent = () => {
                                         label={label}
                                         type={type}
                                         name={key}
+                                        maxLength={2}
                                         value={formData[key]}
                                         onChange={handleChange}
                                     />
